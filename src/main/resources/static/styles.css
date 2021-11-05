@@ -1,0 +1,190 @@
+body {
+  text-align: center;
+}
+
+.btn {
+  border-radius: 0;
+  border-bottom: 4px solid #CCCCCC;
+  margin: 3px;
+  width: 130px;
+  font-size: 0.8rem;
+  -webkit-box-shadow: 0 5px 5px -6px rgba(0,0,0,.3);
+     -moz-box-shadow: 0 5px 5px -6px rgba(0,0,0,.3);
+          box-shadow: 0 5px 5px -6px rgba(0,0,0,.3);
+}
+
+.btn .btn-block:active, .btn .btn-lg:active {
+  -webkit-box-shadow: inset 0 3px 3px -5px rgba(0,0,0,.3);
+     -moz-box-shadow: inset 0 3px 3px -5px rgba(0,0,0,.3);
+          box-shadow: inset 0 3px 3px -5px rgba(0,0,0,.3);
+}
+
+#btn-red {
+  background-color: #d73814;
+  border-color: #be0000;
+  text-shadow: 1px 1px 0 #ac2925;
+}
+
+#btn-red:hover, #btn-red:focus {
+  background-color: darkred;
+  border-color: darkred;
+}
+
+#btn-yellow {
+  color: black;
+  background-color: yellow;
+  border-color: yellow;
+  text-shadow: 1px 1px 0 yellow;
+}
+
+#btn-yellow:hover, #btn-yellow:focus {
+  background-color: yellowgreen;
+  border-color: yellowgreen;
+}
+
+#btn-green {
+  background-color: green;
+  border-color: green;
+  text-shadow: 1px 1px 0 green;
+}
+
+#btn-green:hover, #btn-green:focus {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
+#btn-purple {
+  background-color: mediumpurple;
+  border-color: mediumpurple;
+  text-shadow: 1px 1px 0 mediumpurple;
+}
+
+#btn-purple:hover, #btn-purple:focus {
+  background-color: purple;
+  border-color: purple;
+}
+
+#btn-blue {
+  background-color: blue;
+  border-color: blue;
+  text-shadow: 1px 1px 0 blue;
+}
+
+#btn-blue:hover, #btn-blue:focus {
+  background-color: blue;
+  border-color: blue;
+}
+
+#btn-orange {
+  color: black;
+  background-color: orange;
+  border-color: orange;
+  text-shadow: 1px 1px 0 orange;
+}
+
+#btn-orange:hover, #btn-orange:focus {
+  background-color: orange;
+  border-color: orange;
+}
+
+#btn-pink {
+  color: black;
+  background-color: pink;
+  border-color: pink;
+  text-shadow: 1px 1px 0 pink;
+}
+
+#btn-pink:hover, #btn-pink:focus {
+  background-color: pink;
+  border-color: pink;
+}
+
+#btn-aqua {
+  color: black;
+  background-color: aqua;
+  border-color: aqua;
+  text-shadow: 1px 1px 0 aqua;
+}
+
+#btn-aqua:hover, #btn-aqua:focus {
+  background-color: aqua;
+  border-color: aqua;
+}
+
+.col-container {
+  display: flex;
+  width: 100%;
+}
+
+.container {
+  display: block;
+  /* width: 50%; */
+  margin: auto;
+}
+
+.row {
+  margin: auto;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+
+.peg-row {
+  height: 60px;
+}
+
+.rocket-grid {
+  height: 61px;
+  width: 50%;
+}
+
+.peg {
+  margin: 1px;
+  display: inline-block;
+  height: 55px;
+  width: 55px;
+  border: 1px solid black;
+}
+
+.rocket {
+  margin: 1px;
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+}
+
+.rocket-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.goal {
+  margin: 40px;
+  display: inline-block;
+  height: auto;
+}
+
+.p {
+  text-align: center;
+  display: inline-block;
+}
+
+.x {
+  position: absolute;
+  z-index: 1;
+  height: 10%;
+  width: 10%;
+  height: 40px;
+  width: 40px;
+  transform: translate(10%, -60%);
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .x {left: 41%;}
+}  
