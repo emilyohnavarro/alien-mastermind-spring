@@ -2,7 +2,8 @@
 $("#btn-test").click(function () {
   // $("#test-text").text("hello");
   $.ajax({
-    url: "./test"
+    type: "POST",
+    url: "./new-game"
   }).then(function (data) {
     // console.log("reached test endpoint");
     //  $('.gameengine-test').append(data.test);
