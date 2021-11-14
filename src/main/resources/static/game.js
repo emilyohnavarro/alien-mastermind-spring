@@ -2,11 +2,15 @@
 $("#btn-test").click(function () {
   // $("#test-text").text("hello");
   $.ajax({
-    url: "./greeting"
-}).then(function(data) {
-   $('.greeting-id').append(data.id);
-   $('.greeting-content').append(data.content);
-});
+    url: "./test"
+  }).then(function (data) {
+    // console.log("reached test endpoint");
+    //  $('.gameengine-test').append(data.test);
+
+    // $('.gametestclass-id').append(data.id);
+    // $('.gametestclass-content').append(data.content);
+    $('.gametestclass-level').append(data.level);
+  });
 });
 
 
@@ -316,7 +320,7 @@ function GameBoard(level) {
 
 // Main: =========================================================
 const DEFAULT_LEVEL = 1;
-const RED_X_IMG ="images/x.png";
+const RED_X_IMG = "images/x.png";
 
 newGame(DEFAULT_LEVEL);
 
@@ -344,9 +348,9 @@ $("#btn-new-game").click(function () {
   }
 });
 
-$('.dropdown-menu a').click(function () {  
+$('.dropdown-menu a').click(function () {
   console.log("level in drop down: " + $(this).text());
-  changeLevel(parseInt($(this).text()));         
+  changeLevel(parseInt($(this).text()));
 });
 
 function submit() {
