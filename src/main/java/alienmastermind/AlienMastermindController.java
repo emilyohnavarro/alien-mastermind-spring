@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AlienMastermindController {
-	private static final String template = "Hello, %s!";
-	private final AtomicLong counter = new AtomicLong();
+	private GameEngine engine;
+	// private static final String template = "Hello, %s!";
+	// private final AtomicLong counter = new AtomicLong();
 
 	// @GetMapping("/greeting")
 	// public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -25,11 +26,27 @@ public class AlienMastermindController {
 	// public GameEngine newGame(@RequestBody GameEngine newGameEngine) {
 	public GameEngine newGame(@PathVariable String level) {
 		System.out.println("reached new-game endpoint in controller");
-		return new GameEngine(Integer.parseInt(level));
+		engine = new GameEngine(Integer.parseInt(level));
+		return engine;
 	}
 	// public Greeting gameenginetest(@RequestParam(value = "name", defaultValue = "World") String name) {
 	// 	return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	// }
+
+
+	@GetMapping("/current-game")
+	public GameEngine getCurrentGame() {
+		System.out.println("reached get endpoint");
+		return engine;
+	}
+
+
+	@PostMapping("/add-peg/{color}")
+	public GameEngine addPegToSequence(@PathVariable int color) {
+		System.out.println("reached post add peg endpoint");
+		engine.addPegToSeq(color);
+		return engine;
+	}
 
 
 	// @GetMapping("/greeting")

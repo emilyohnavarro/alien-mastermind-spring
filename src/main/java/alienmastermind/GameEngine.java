@@ -98,9 +98,14 @@ public class GameEngine {
         return currentCol;
     }
 
-    @JsonIgnore
+    // @JsonIgnore
     public Peg getLastPeg() {
-        return (Peg) currentPegSeq.get(currentPegSeq.size() - 1);
+        if (currentPegSeq.size() > 0) {
+            return (Peg) currentPegSeq.get(currentPegSeq.size() - 1);
+        }
+        else {
+            return new NullPeg();
+        }
     }
 
     public int getCurrentSeqSize() {

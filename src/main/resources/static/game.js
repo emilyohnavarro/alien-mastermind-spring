@@ -15,6 +15,7 @@ $("#btn-test").click(function () {
 });
 
 
+
 // Peg: =========================================================
 const RED_PEG = 1, YELLOW_PEG = 2, GREEN_PEG = 3, PURPLE_PEG = 4, BLUE_PEG = 5, ORANGE_PEG = 6,
   PINK_PEG = 7, AQUA_PEG = 8, EMPTY_PEG = 9;
@@ -22,6 +23,18 @@ const RED_PEG = 1, YELLOW_PEG = 2, GREEN_PEG = 3, PURPLE_PEG = 4, BLUE_PEG = 5, 
 const RED_PEG_IMG = "images/redAlien.gif", YELLOW_PEG_IMG = "images/yellowAlien.gif", GREEN_PEG_IMG = "images/greenAlien.gif",
   PURPLE_PEG_IMG = "images/purpleAlien.gif", BLUE_PEG_IMG = "images/blueAlien.gif", ORANGE_PEG_IMG = "images/orangeAlien.gif",
   PINK_PEG_IMG = "images/pinkAlien.gif", AQUA_PEG_IMG = "images/aquaAlien.gif", EMPTY_PEG_IMG = "images/emptyPeg.gif";
+
+const pegImageSources = new Map([
+  [RED_PEG, "images/redAlien.gif"],
+  [YELLOW_PEG, "images/yellowAlien.gif"],
+  [GREEN_PEG, "images/greenAlien.gif"],
+  [PURPLE_PEG, "images/purpleAlien.gif"],
+  [BLUE_PEG, "images/blueAlien.gif"],
+  [ORANGE_PEG, "images/orangeAlien.gif"],
+  [PINK_PEG, "images/pinkAlien.gif"],
+  [AQUA_PEG, "images/aquaAlien.gif"],
+  [EMPTY_PEG, "images/emptyPeg.gif"],
+]);
 
 function Peg(color) {
   this.color = color;
@@ -60,6 +73,7 @@ function Peg(color) {
 }
 
 
+
 // Rocket: =========================================================
 const BLUE_ROCKET = 1, WHITE_ROCKET = 2, EMPTY_ROCKET = 3;
 const BLUE_ROCKET_IMG = "images/blueRocket.gif", WHITE_ROCKET_IMG = "images/whiteRocket.gif",
@@ -81,6 +95,7 @@ function Rocket(fill) {
       break;
   }
 }
+
 
 
 // Goal: =========================================================
@@ -212,6 +227,7 @@ function Goal(level) {
 }
 
 
+
 // GameEngine: =========================================================
 const WIN = 1, LOSE = 2, IN_PROGRESS = 3;
 
@@ -225,12 +241,14 @@ function GameEngine(level) {
   this.winOrLose = IN_PROGRESS;
 }
 
+
 GameEngine.prototype.addPegToSeq = function (color) {
   if (this.currentPegSeq.length < 4) {
     this.currentPegSeq.push(new Peg(color));
     this.currentCol++;
   }
 }
+
 
 GameEngine.prototype.submitPSeq = function () {
   numBlueRockets = 0;
@@ -284,36 +302,44 @@ GameEngine.prototype.submitPSeq = function () {
   this.target.clearAllCounts();
 }
 
+
 GameEngine.prototype.getLastPeg = function () {
   return this.currentPegSeq[this.currentPegSeq.length - 1];
 }
+
 
 GameEngine.prototype.getCurrentSeqSize = function () {
   return this.currentPegSeq.length;
 }
 
+
 GameEngine.prototype.getCurrentRocketSeq = function (index) {
   return this.currentRocketSeq[index];
 }
+
 
 GameEngine.prototype.clearCurrentPegSeq = function () {
   this.currentPegSeq = [];
   this.currentCol = 0;
 }
 
+
 GameEngine.prototype.getPlayerStatus = function () {
   return this.winOrLose;
 }
+
 
 GameEngine.prototype.getLevel = function () {
   return this.target.level;
 }
 
 
+
 // GameBoard: =========================================================
 // function GameBoard(level) {
 //   this.engine = new GameEngine(level);
 // }
+
 
 
 // Main: =========================================================
@@ -351,6 +377,7 @@ $('.dropdown-menu a').click(function () {
   changeLevel(parseInt($(this).text()));
 });
 
+
 function submit() {
   if (engine.getCurrentSeqSize() == 4) {
     engine.submitPSeq();
@@ -380,6 +407,7 @@ function submit() {
   }
 }
 
+
 function clear() {
   if (engine.getCurrentSeqSize() != 0) {
     engine.clearCurrentPegSeq();
@@ -389,6 +417,7 @@ function clear() {
   }
   disableSubmitButton();
 }
+
 
 function instructions() {
   alert("Four aliens have arranged themselves in a secret order and are hiding behind the sign marked GOAL."
@@ -406,11 +435,13 @@ function instructions() {
     + '\n' + '\n' + "You are currently playing level " + engine.getLevel());
 }
 
+
 function win() {
   showGoal();
   alert("Congratulations -- You win!");
   disableButtons();
 }
+
 
 function lose() {
   showGoal();
@@ -418,11 +449,13 @@ function lose() {
   disableButtons();
 }
 
+
 function showGoal() {
   for (i = 0; i < 4; i++) {
     $("#goal-" + i).attr("src", engine.target.sequence[i].imageSrc);
   }
 }
+
 
 function disableButtons() {
   $("#btn-red").prop("disabled", true);
@@ -438,6 +471,7 @@ function disableButtons() {
   $("#btn-change-level").prop("disabled", true);
 }
 
+
 function resetButtons() {
   $("#btn-red").prop("disabled", false);
   $("#btn-yellow").prop("disabled", false);
@@ -452,109 +486,150 @@ function resetButtons() {
   $("#btn-change-level").prop("disabled", false);
 }
 
+
 function newGame(level) {
   engine = new GameEngine(level);
 
-  $.ajax({
-    type: "POST",
-    url: "./new-game/" + level
-  }).then(function (data) {
-    currentLevel = data.level;
-    // currentSeqSize = data.currentSeqSize;
-    // console.log("level: " + data.level);
-    // console.log("seq size: " + data.currentSeqSize);
+  // ajax call:
+  $.post(("./new-game/" + level), resetUI);
 
-    // console.log("currentLevel right after ajax call: " + currentLevel);
+  // $.ajax({
+  //   type: "POST",
+  //   url: "./new-game/" + level
+  // }).then(function (data) {
+  // });
+}
 
-    // clear all peg images:
-    $(".peg-img").attr("src", EMPTY_PEG_IMG);
+function resetUI(gameEngine) {
+  // currentSeqSize = data.currentSeqSize;
+  // console.log("level: " + data.level);
+  // console.log("seq size: " + data.currentSeqSize);
 
-    // clear all rocket images:
-    $(".rocket-img").attr("src", EMPTY_ROCKET_IMG);
+  // console.log("currentLevel right after ajax call: " + currentLevel);
 
-    // hide red x images:
-    $(".x").hide();
+  // clear all peg images:
+  $(".peg-img").attr("src", EMPTY_PEG_IMG);
 
-    // cover goal:
-    $("#goal-0").attr("src", G_IMG);
-    $("#goal-1").attr("src", O_IMG);
-    $("#goal-2").attr("src", A_IMG);
-    $("#goal-3").attr("src", L_IMG);
+  // clear all rocket images:
+  $(".rocket-img").attr("src", EMPTY_ROCKET_IMG);
 
-    // clear all color buttons:
-    $(".color-buttons").empty();
+  // hide red x images:
+  $(".x").hide();
 
-    // add color buttons:
-    // all levels:
-    $(".color-buttons").append(generateColorButtonHtml("red"), generateColorButtonHtml("yellow"), generateColorButtonHtml("green"),
-      generateColorButtonHtml("purple"));
+  // cover goal:
+  $("#goal-0").attr("src", G_IMG);
+  $("#goal-1").attr("src", O_IMG);
+  $("#goal-2").attr("src", A_IMG);
+  $("#goal-3").attr("src", L_IMG);
 
-    // level 2:
-    if (currentLevel > 1) {
-      $(".color-buttons").append(generateColorButtonHtml("blue"));
-      // decrease button/font size to make them all fit in the same space:
-      $(".btn-color").css("fontSize", "0.7rem");
+  // clear all color buttons:
+  $(".color-buttons").empty();
 
-      // level 3:
-      if (currentLevel > 2) {
-        $(".color-buttons").append(generateColorButtonHtml("orange"));
-        $(".btn-color").css("fontSize", "0.6rem");
+  // add color buttons:
+  // all levels:
+  $(".color-buttons").append(generateColorButtonHtml("red"), generateColorButtonHtml("yellow"), generateColorButtonHtml("green"),
+    generateColorButtonHtml("purple"));
 
-        // level 4:
-        if (currentLevel > 3) {
-          $(".color-buttons").append(generateColorButtonHtml("pink"));
-          $(".btn-color").css("fontSize", "0.5rem");
+  // level 2:
+  if (gameEngine.level > 1) {
+    $(".color-buttons").append(generateColorButtonHtml("blue"));
+    // decrease button/font size to make them all fit in the same space:
+    $(".btn-color").css("fontSize", "0.7rem");
 
-          // level 5:
-          if (currentLevel > 4) {
-            $(".color-buttons").append(generateColorButtonHtml("aqua"));
-            $(".btn-color").css("fontSize", "0.4rem");
-          }
+    // level 3:
+    if (gameEngine.level > 2) {
+      $(".color-buttons").append(generateColorButtonHtml("orange"));
+      $(".btn-color").css("fontSize", "0.6rem");
+
+      // level 4:
+      if (gameEngine.level > 3) {
+        $(".color-buttons").append(generateColorButtonHtml("pink"));
+        $(".btn-color").css("fontSize", "0.5rem");
+
+        // level 5:
+        if (gameEngine.level > 4) {
+          $(".color-buttons").append(generateColorButtonHtml("aqua"));
+          $(".btn-color").css("fontSize", "0.4rem");
         }
       }
     }
+  }
 
-    // reset buttons:
-    resetButtons();
+  // reset buttons:
+  resetButtons();
 
-    // add handlers to color buttons:
-    $(".btn-color").on("click", function () {
-      var source = $(this).attr("id");
-      // console.log("source = " + source);
-      if (engine.getCurrentSeqSize() < 4) {
+  // set text on level dropdown:
+  $("#level-dropdown").text("Level: " + gameEngine.level);
+
+  addColorButtonHandlers();
+}
+
+
+function addColorButtonHandlers() {
+  // $.ajax({
+  //   type: "GET",
+  //   url: "./current-game"
+  // }).then(function (data) {
+  //   console.log("data.currentSeqSize: " + data.currentSeqSize);    
+  // });
+
+  // add handlers to color buttons:
+  $(".btn-color").on("click", function () {
+    var source = $(this).attr("id");
+    // console.log("source = " + source);
+    // if (engine.getCurrentSeqSize() < 4) {
+    // ajax call:
+    // $.get("./current-game", resetUI);
+    // $.ajax({
+    //   type: "GET",
+    //   url: "./current-game"
+    // }).then(function (gamEngine) {
+    //   console.log("gameEngine.currentSeqSize: " + gameEngube.currentSeqSize);   
+    $.get("./current-game", function (gameEngine) {
+      console.log("gameEngine.currentSeqSize: " + gameEngine.currentSeqSize);
+      if (gameEngine.currentSeqSize < 4) {
         if (source == "btn-red") {
-          engine.addPegToSeq(RED_PEG);
+          $.post("./add-peg/" + RED_PEG);
         } else if (source == "btn-yellow") {
-          engine.addPegToSeq(YELLOW_PEG);
+          $.post("./add-peg/" + YELLOW_PEG);
+          // engine.addPegToSeq(YELLOW_PEG);
         } else if (source == "btn-green") {
-          engine.addPegToSeq(GREEN_PEG);
+          $.post("./add-peg/" + GREEN_PEG);
+          // engine.addPegToSeq(GREEN_PEG);
         } else if (source == "btn-purple") {
-          engine.addPegToSeq(PURPLE_PEG);
+          $.post("./add-peg/" + PURPLE_PEG);
+          // engine.addPegToSeq(PURPLE_PEG);
         } else if (source == "btn-blue") {
-          engine.addPegToSeq(BLUE_PEG);
+          $.post("./add-peg/" + BLUE_PEG);
+          // engine.addPegToSeq(BLUE_PEG);
         } else if (source == "btn-orange") {
-          engine.addPegToSeq(ORANGE_PEG);
+          $.post("./add-peg/" + ORANGE_PEG);
+          // engine.addPegToSeq(ORANGE_PEG);
         } else if (source == "btn-pink") {
-          engine.addPegToSeq(PINK_PEG);
+          $.post("./add-peg/" + PINK_PEG);
+          // engine.addPegToSeq(PINK_PEG);
         } else if (source == "btn-aqua") {
-          engine.addPegToSeq(AQUA_PEG);
+          $.post("./add-peg/" + AQUA_PEG);
+          // engine.addPegToSeq(AQUA_PEG);
         }
-        $("#peg" + engine.currentRow + "-" + (engine.currentCol - 1)).attr("src", engine.getLastPeg().imageSrc);
 
-        // enable submit button only if current guess contains 4 aliens:
-        if (engine.getCurrentSeqSize() == 4) {
-          enableSubmitButton();
-        } else {
-          disableSubmitButton();
-        }
+        $.get("./current-game", function (updatedGameEngine) {
+          $("#peg" + updatedGameEngine.currentRow + "-" + (updatedGameEngine.currentCol - 1)).attr("src", pegImageSources.get(updatedGameEngine.lastPeg.color));
+
+          // enable submit button only if current guess contains 4 aliens:
+          if (updatedGameEngine.currentSeqSize == 4) {
+            enableSubmitButton();
+          } else {
+            disableSubmitButton();
+          }
+        });
       }
     });
 
-    // set text on level dropdown:
-    $("#level-dropdown").text("Level: " + engine.getLevel());
 
   });
 }
+
 
 function changeLevel(level) {
   if (confirm("Are you sure you want to start a new game?")) {
@@ -562,15 +637,18 @@ function changeLevel(level) {
   }
 }
 
+
 function disableSubmitButton() {
   $("#btn-submit").prop("disabled", true);
   $("#btn-submit").attr("title", "Each guess must contain 4 aliens");
 }
 
+
 function enableSubmitButton() {
   $("#btn-submit").prop("disabled", false);
   $("#btn-submit").attr("title", "Submit your current guess");
 }
+
 
 function generateColorButtonHtml(color) {
   return "<div class=\"row\"><button type=\"button\" class=\"btn btn-primary btn-color\" id=\"btn-" + color.toLowerCase()

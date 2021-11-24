@@ -2,6 +2,8 @@ package alienmastermind;
 
 import javax.swing.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Peg {
 	private int color;
 	private ImageIcon img;
@@ -53,6 +55,7 @@ public class Peg {
 		return color;
 	}
 
+	@JsonIgnore
 	public ImageIcon getImage() {
 		return img;
 	}
