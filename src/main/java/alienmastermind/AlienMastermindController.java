@@ -36,15 +36,16 @@ public class AlienMastermindController {
 
 	@GetMapping("/current-game")
 	public GameEngine getCurrentGame() {
-		System.out.println("reached get endpoint");
+		System.out.println("reached get endpoint, about to return engine with last peg color of " + engine.getLastPeg().getColor());
 		return engine;
 	}
 
 
 	@PostMapping("/add-peg/{color}")
 	public GameEngine addPegToSequence(@PathVariable int color) {
-		System.out.println("reached post add peg endpoint");
+		System.out.println("reached post add peg endpoint with color " + color);
 		engine.addPegToSeq(color);
+		System.out.println("engine.getLastPeg().getColor()" + engine.getLastPeg().getColor());
 		return engine;
 	}
 

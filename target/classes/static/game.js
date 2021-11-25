@@ -586,47 +586,71 @@ function addColorButtonHandlers() {
     // }).then(function (gamEngine) {
     //   console.log("gameEngine.currentSeqSize: " + gameEngube.currentSeqSize);   
     $.get("./current-game", function (gameEngine) {
-      console.log("gameEngine.currentSeqSize: " + gameEngine.currentSeqSize);
+      console.log("1. gameEngine.currentSeqSize: " + gameEngine.currentSeqSize);
       if (gameEngine.currentSeqSize < 4) {
         if (source == "btn-red") {
-          $.post("./add-peg/" + RED_PEG);
+          addPeg(RED_PEG);
+          // $.post("./add-peg/" + RED_PEG, function (gameEngine2) {
+          // });
         } else if (source == "btn-yellow") {
-          $.post("./add-peg/" + YELLOW_PEG);
+          addPeg(YELLOW_PEG);
+          // $.post("./add-peg/" + YELLOW_PEG);
           // engine.addPegToSeq(YELLOW_PEG);
         } else if (source == "btn-green") {
-          $.post("./add-peg/" + GREEN_PEG);
+          addPeg(GREEN_PEG);
+          // $.post("./add-peg/" + GREEN_PEG);
           // engine.addPegToSeq(GREEN_PEG);
         } else if (source == "btn-purple") {
-          $.post("./add-peg/" + PURPLE_PEG);
+          addPeg(PURPLE_PEG);
+          // $.post("./add-peg/" + PURPLE_PEG);
           // engine.addPegToSeq(PURPLE_PEG);
         } else if (source == "btn-blue") {
-          $.post("./add-peg/" + BLUE_PEG);
+          addPeg(BLUE_PEG);
+          // $.post("./add-peg/" + BLUE_PEG);
           // engine.addPegToSeq(BLUE_PEG);
         } else if (source == "btn-orange") {
-          $.post("./add-peg/" + ORANGE_PEG);
+          addPeg(ORANGE_PEG);
+          // $.post("./add-peg/" + ORANGE_PEG);
           // engine.addPegToSeq(ORANGE_PEG);
         } else if (source == "btn-pink") {
-          $.post("./add-peg/" + PINK_PEG);
+          addPeg(PINK_PEG);
+          // $.post("./add-peg/" + PINK_PEG);
           // engine.addPegToSeq(PINK_PEG);
         } else if (source == "btn-aqua") {
-          $.post("./add-peg/" + AQUA_PEG);
+          addPeg(AQUA_PEG);
+          // $.post("./add-peg/" + AQUA_PEG);
           // engine.addPegToSeq(AQUA_PEG);
         }
 
-        $.get("./current-game", function (updatedGameEngine) {
-          $("#peg" + updatedGameEngine.currentRow + "-" + (updatedGameEngine.currentCol - 1)).attr("src", pegImageSources.get(updatedGameEngine.lastPeg.color));
+        // $.get("./current-game", function (updatedGameEngine) {
+        //   console.log("updatedGameEngine.lastPeg.color: " + updatedGameEngine.lastPeg.color);
+        //   $("#peg" + updatedGameEngine.currentRow + "-" + (updatedGameEngine.currentCol - 1)).attr("src", pegImageSources.get(updatedGameEngine.lastPeg.color));
 
-          // enable submit button only if current guess contains 4 aliens:
-          if (updatedGameEngine.currentSeqSize == 4) {
-            enableSubmitButton();
-          } else {
-            disableSubmitButton();
-          }
-        });
+        //   // enable submit button only if current guess contains 4 aliens:
+        //   if (updatedGameEngine.currentSeqSize == 4) {
+        //     enableSubmitButton();
+        //   } else {
+        //     disableSubmitButton();
+        //   }
+        // });
       }
     });
+  });
+}
 
 
+function addPeg(color) {
+  $.post("./add-peg/" + color, function (gameEngine) {
+    console.log("in addPeg gameEngine.currentSeqSize: " + gameEngine.currentSeqSize);
+    console.log("in addPeg gameEngine.lastPeg.color: " + gameEngine.lastPeg.color);
+    $("#peg" + gameEngine.currentRow + "-" + (gameEngine.currentCol - 1)).attr("src", pegImageSources.get(gameEngine.lastPeg.color));
+
+    // enable submit button only if current guess contains 4 aliens:
+    if ((gameEngine.currentSeqSize + 1) == 4) {
+      enableSubmitButton();
+    } else {
+      disableSubmitButton();
+    }
   });
 }
 
