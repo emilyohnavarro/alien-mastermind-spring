@@ -9,8 +9,8 @@ public class Rocket {
 	public static final int WHITE = 2;
 	public static final int EMPTY = 3;
 
-	public Rocket(int fill1) {
-		fill = fill1;
+	public Rocket(int fill) {
+		this.fill = fill;
 		switch (fill) {
 		case BLUE:
 			img = new ImageIcon("res/blueRocket.gif");
@@ -22,6 +22,10 @@ public class Rocket {
 			img = new ImageIcon("res/emptyRocket.gif");
 			break;
 		}
+	}
+
+	public int getFill() {
+		return fill;
 	}
 
 	public ImageIcon getImage() {

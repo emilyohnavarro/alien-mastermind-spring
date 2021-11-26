@@ -50,6 +50,14 @@ public class AlienMastermindController {
 	}
 
 
+	@PostMapping("/submit-peg-seq")
+	public GameEngine submitPegSequence() {
+		System.out.println("reached post submit peg seq endpoint");
+		engine.submitPegSeq();
+		return engine;
+	}
+
+
 	// @GetMapping("/greeting")
 	// public String greeting(@RequestParam(name="name", required=false, defaultValue="POOFACE") String name, Model model) {
 	// 	model.addAttribute("name", name);

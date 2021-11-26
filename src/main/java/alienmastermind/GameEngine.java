@@ -113,7 +113,7 @@ public class GameEngine {
     }
 
     public Rocket getCurrentRocketSeq(int index) {
-        return (Rocket) (currentRocketSeq.get(index));
+        return currentRocketSeq.get(index);
     }
 
     public void clearCurrentPegSeq() {

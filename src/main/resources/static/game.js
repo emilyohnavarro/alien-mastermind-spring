@@ -79,6 +79,12 @@ const BLUE_ROCKET = 1, WHITE_ROCKET = 2, EMPTY_ROCKET = 3;
 const BLUE_ROCKET_IMG = "images/blueRocket.gif", WHITE_ROCKET_IMG = "images/whiteRocket.gif",
   EMPTY_ROCKET_IMG = "images/emptyRocket.gif";
 
+  const rocketImageSources = new Map([
+    [BLUE_ROCKET, BLUE_ROCKET_IMG],
+    [WHITE_ROCKET, WHITE_ROCKET_IMG],
+    [EMPTY_ROCKET, EMPTY_ROCKET_IMG],
+  ]);
+
 function Rocket(fill) {
   this.fill = fill;
   this.imageSrc;
@@ -379,32 +385,36 @@ $('.dropdown-menu a').click(function () {
 
 
 function submit() {
-  if (engine.getCurrentSeqSize() == 4) {
-    engine.submitPSeq();
-    allBlank = true;
-    for (i = 0; i < 4; i++) {
-      $("#rocket" + (engine.currentRow + 1) + "-" + i).attr("src", engine.getCurrentRocketSeq(i).imageSrc);
-      if (engine.getCurrentRocketSeq(i).imageSrc != EMPTY_ROCKET_IMG) {
-        allBlank = false;
-      }
-
-      // if no rockets, blank, show red x:
-      if (allBlank) {
-        $("#x-" + (engine.currentRow + 1)).attr("src", RED_X_IMG);
-        $("#x-" + (engine.currentRow + 1)).show();
-      }
+  $.get("./current-game", function (gameEngineGET) {
+    if (gameEngineGET.getCurrentSeqSize() == 4) {
+        $.post("./submit-peg-seq", function (gameEngine) {
+        // engine.submitPSeq();
+        allBlank = true;
+        for (i = 0; i < 4; i++) {
+          $("#rocket" + (gameEngine.currentRow + 1) + "-" + i).attr("src", rocketImageSources.get(engine.currentRocketSeq(i).fill));
+          if (gameEngine.currentRocketSeq(i).fill != EMPTY_ROCKET) {
+            allBlank = false;
+          }
+    
+          // if no rockets, blank, show red x:
+          if (allBlank) {
+            $("#x-" + (gameEngine.currentRow + 1)).attr("src", RED_X_IMG);
+            $("#x-" + (gameEngine.currentRow + 1)).show();
+          }
+        }
+        disableSubmitButton();
+      });
     }
-    disableSubmitButton();
-  }
-  else {
-    alert("Each guess must contain 4 aliens");
-  }
-  if (engine.getPlayerStatus() == WIN) {
-    win();
-  }
-  if (engine.getPlayerStatus() == LOSE) {
-    lose();
-  }
+    else {
+      alert("Each guess must contain 4 aliens");
+    }
+    if (gameEngine.playerStatus == WIN) {
+      win();
+    }
+    if (gameEngine.playerStatus == LOSE) {
+      lose();
+    }
+  });
 }
 
 
@@ -646,7 +656,7 @@ function addPeg(color) {
     $("#peg" + gameEngine.currentRow + "-" + (gameEngine.currentCol - 1)).attr("src", pegImageSources.get(gameEngine.lastPeg.color));
 
     // enable submit button only if current guess contains 4 aliens:
-    if ((gameEngine.currentSeqSize + 1) == 4) {
+    if (gameEngine.currentSeqSize == 4) {
       enableSubmitButton();
     } else {
       disableSubmitButton();
