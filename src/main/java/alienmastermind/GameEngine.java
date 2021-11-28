@@ -1,14 +1,15 @@
 package alienmastermind;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class GameEngine {
 
     private Goal target;
-    private ArrayList<Peg> currentPegSeq;
-    private ArrayList<Rocket> currentRocketSeq;
+    private List<Peg> currentPegSeq;
+    private List<Rocket> currentRocketSeq;
     private int currentRow;
     private int currentCol;
     private int winOrLose;
@@ -114,6 +115,10 @@ public class GameEngine {
 
     public Rocket getCurrentRocketSeq(int index) {
         return currentRocketSeq.get(index);
+    }
+
+    public List<Rocket> getCurrentRocketSeq() {
+        return currentRocketSeq;
     }
 
     public void clearCurrentPegSeq() {

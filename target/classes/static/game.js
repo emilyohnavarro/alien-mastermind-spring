@@ -79,11 +79,11 @@ const BLUE_ROCKET = 1, WHITE_ROCKET = 2, EMPTY_ROCKET = 3;
 const BLUE_ROCKET_IMG = "images/blueRocket.gif", WHITE_ROCKET_IMG = "images/whiteRocket.gif",
   EMPTY_ROCKET_IMG = "images/emptyRocket.gif";
 
-  const rocketImageSources = new Map([
-    [BLUE_ROCKET, BLUE_ROCKET_IMG],
-    [WHITE_ROCKET, WHITE_ROCKET_IMG],
-    [EMPTY_ROCKET, EMPTY_ROCKET_IMG],
-  ]);
+const rocketImageSources = new Map([
+  [BLUE_ROCKET, BLUE_ROCKET_IMG],
+  [WHITE_ROCKET, WHITE_ROCKET_IMG],
+  [EMPTY_ROCKET, EMPTY_ROCKET_IMG],
+]);
 
 function Rocket(fill) {
   this.fill = fill;
@@ -386,16 +386,17 @@ $('.dropdown-menu a').click(function () {
 
 function submit() {
   $.get("./current-game", function (gameEngineGET) {
-    if (gameEngineGET.getCurrentSeqSize() == 4) {
-        $.post("./submit-peg-seq", function (gameEngine) {
+    if (gameEngineGET.currentSeqSize == 4) {
+      $.post("./submit-peg-seq", function (gameEngine) {
         // engine.submitPSeq();
         allBlank = true;
         for (i = 0; i < 4; i++) {
-          $("#rocket" + (gameEngine.currentRow + 1) + "-" + i).attr("src", rocketImageSources.get(engine.currentRocketSeq(i).fill));
-          if (gameEngine.currentRocketSeq(i).fill != EMPTY_ROCKET) {
+          rocketFill = gameEngine.currentRocketSeq[i].fill;
+          $("#rocket" + (gameEngine.currentRow + 1) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
+          if (rocketFill != EMPTY_ROCKET) {
             allBlank = false;
           }
-    
+
           // if no rockets, blank, show red x:
           if (allBlank) {
             $("#x-" + (gameEngine.currentRow + 1)).attr("src", RED_X_IMG);
