@@ -396,24 +396,25 @@ function submit() {
           if (rocketFill != EMPTY_ROCKET) {
             allBlank = false;
           }
+        }
 
-          // if no rockets, blank, show red x:
-          if (allBlank) {
-            $("#x-" + (gameEngine.currentRow + 1)).attr("src", RED_X_IMG);
-            $("#x-" + (gameEngine.currentRow + 1)).show();
-          }
+        // if no rockets, blank, show red x:
+        if (allBlank) {
+          $("#x-" + (gameEngine.currentRow + 1)).attr("src", RED_X_IMG);
+          $("#x-" + (gameEngine.currentRow + 1)).show();
         }
         disableSubmitButton();
+
+        if (gameEngine.playerStatus == WIN) {
+          win();
+        }
+        if (gameEngine.playerStatus == LOSE) {
+          lose();
+        }
       });
     }
     else {
       alert("Each guess must contain 4 aliens");
-    }
-    if (gameEngine.playerStatus == WIN) {
-      win();
-    }
-    if (gameEngine.playerStatus == LOSE) {
-      lose();
     }
   });
 }
