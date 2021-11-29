@@ -55,8 +55,8 @@ public class Peg {
 		return color;
 	}
 
-	@JsonIgnore
-	public ImageIcon getImage() {
-		return img;
-	}
+	// @JsonIgnore
+	// public ImageIcon getImage() {
+	// 	return img;
+	// }
 }

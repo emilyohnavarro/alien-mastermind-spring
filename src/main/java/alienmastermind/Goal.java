@@ -120,6 +120,10 @@ public class Goal {
 		return sequence[position];
 	}
 
+	public Peg[] getSequence() {
+		return sequence;
+	}
+
 	public void setPegCount(int index, int color) {
 		beenCounted[index] = color;
 	}

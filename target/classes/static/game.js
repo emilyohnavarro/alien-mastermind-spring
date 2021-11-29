@@ -463,9 +463,11 @@ function lose() {
 
 
 function showGoal() {
-  for (i = 0; i < 4; i++) {
-    $("#goal-" + i).attr("src", engine.target.sequence[i].imageSrc);
-  }
+  $.get("./current-game", function (gameEngine) {
+    for (i = 0; i < 4; i++) {
+      $("#goal-" + i).attr("src", pegImageSources.get(gameEngine.goal.sequence[i].color));
+    }
+  });
 }
 
 
