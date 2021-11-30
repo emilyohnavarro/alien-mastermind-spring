@@ -58,6 +58,14 @@ public class AlienMastermindController {
 	}
 
 
+	@PostMapping("/clear-peg-seq")
+	public GameEngine clearPegSequence() {
+		System.out.println("reached post clear peg seq endpoint");
+		engine.clearCurrentPegSeq();
+		return engine;
+	}
+
+
 	// @GetMapping("/greeting")
 	// public String greeting(@RequestParam(name="name", required=false, defaultValue="POOFACE") String name, Model model) {
 	// 	model.addAttribute("name", name);

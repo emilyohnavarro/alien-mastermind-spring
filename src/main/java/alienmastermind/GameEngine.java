@@ -36,55 +36,59 @@ public class GameEngine {
     }
 
     public void submitPegSeq() {
-        int numBlueRockets = 0;
-        int numWhiteRockets = 0;
+        if (currentPegSeq.size() == 4) {
+            int numBlueRockets = 0;
+            int numWhiteRockets = 0;
 
-        for (int i = 0; i < 4; i++) // go through each peg in sequence
-        {
-            if (((Peg) currentPegSeq.get(i)).getColor() == (target.getSequence(i).getColor())) {
-                numBlueRockets++;
-                target.setPegCount(i, Goal.COUNTEDBLUE);
-            }
-        }
-        for (int i = 0; i < 4; i++) // go through each peg again to test for white rockets
-        {
-            goThruTarget: for (int j = 0; j < 4; j++) // go through each peg in target until there is a match or target
-                                                      // sequence has been exhaustively searched
+            for (int i = 0; i < 4; i++) // go through each peg in sequence
             {
-                if ((((Peg) currentPegSeq.get(i)).getColor() == (target.getSequence(j).getColor()))
-                        && (target.getPegCount(i) != Goal.COUNTEDBLUE) && (target.getPegCount(j) == Goal.NOTCOUNTED)) {
-                    numWhiteRockets++;
-                    target.setPegCount(j, Goal.COUNTEDWHITE);
-                    break goThruTarget;
+                if (((Peg) currentPegSeq.get(i)).getColor() == (target.getSequence(i).getColor())) {
+                    numBlueRockets++;
+                    target.setPegCount(i, Goal.COUNTEDBLUE);
                 }
             }
-        }
-        if (numBlueRockets == 4) {
-            winOrLose = WIN;
-        }
-        if ((numBlueRockets != 4) && currentRow == 0) {
-            winOrLose = LOSE;
-        }
-        for (int i = 0; i < 4; i++) {
-            if (numBlueRockets > 0) {
-                Rocket r = new Rocket(Rocket.BLUE);
-                currentRocketSeq.add(i, r);
-                numBlueRockets--;
-            } else {
-                if (numWhiteRockets > 0) {
-                    Rocket r = new Rocket(Rocket.WHITE);
+            for (int i = 0; i < 4; i++) // go through each peg again to test for white rockets
+            {
+                goThruTarget: for (int j = 0; j < 4; j++) // go through each peg in target until there is a match or
+                                                          // target
+                                                          // sequence has been exhaustively searched
+                {
+                    if ((((Peg) currentPegSeq.get(i)).getColor() == (target.getSequence(j).getColor()))
+                            && (target.getPegCount(i) != Goal.COUNTEDBLUE)
+                            && (target.getPegCount(j) == Goal.NOTCOUNTED)) {
+                        numWhiteRockets++;
+                        target.setPegCount(j, Goal.COUNTEDWHITE);
+                        break goThruTarget;
+                    }
+                }
+            }
+            if (numBlueRockets == 4) {
+                winOrLose = WIN;
+            }
+            if ((numBlueRockets != 4) && currentRow == 0) {
+                winOrLose = LOSE;
+            }
+            for (int i = 0; i < 4; i++) {
+                if (numBlueRockets > 0) {
+                    Rocket r = new Rocket(Rocket.BLUE);
                     currentRocketSeq.add(i, r);
-                    numWhiteRockets--;
+                    numBlueRockets--;
                 } else {
-                    Rocket r = new Rocket(Rocket.EMPTY);
-                    currentRocketSeq.add(i, r);
+                    if (numWhiteRockets > 0) {
+                        Rocket r = new Rocket(Rocket.WHITE);
+                        currentRocketSeq.add(i, r);
+                        numWhiteRockets--;
+                    } else {
+                        Rocket r = new Rocket(Rocket.EMPTY);
+                        currentRocketSeq.add(i, r);
+                    }
                 }
             }
+            currentPegSeq.clear();
+            currentRow--;
+            currentCol = 0;
+            target.clearAllCounts();
         }
-        currentPegSeq.clear();
-        currentRow--;
-        currentCol = 0;
-        target.clearAllCounts();
     }
 
     public Goal getGoal() {
@@ -103,8 +107,7 @@ public class GameEngine {
     public Peg getLastPeg() {
         if (currentPegSeq.size() > 0) {
             return (Peg) currentPegSeq.get(currentPegSeq.size() - 1);
-        }
-        else {
+        } else {
             return new NullPeg();
         }
     }
@@ -122,8 +125,10 @@ public class GameEngine {
     }
 
     public void clearCurrentPegSeq() {
-        currentPegSeq.clear();
-        currentCol = 0;
+        if (currentPegSeq.size() > 0) {
+            currentPegSeq.clear();
+            currentCol = 0;
+        }
     }
 
     public int getPlayerStatus() {

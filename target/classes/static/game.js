@@ -421,13 +421,18 @@ function submit() {
 
 
 function clear() {
-  if (engine.getCurrentSeqSize() != 0) {
-    engine.clearCurrentPegSeq();
+  // if (engine.getCurrentSeqSize() != 0) {
+  //   engine.clearCurrentPegSeq();
+  //   for (i = 0; i < 4; i++) {
+  //     $("#peg" + engine.currentRow + "-" + i).attr("src", EMPTY_PEG_IMG);
+  //   }
+  // }
+  $.post("./clear-peg-seq", function (gameEngine) {
     for (i = 0; i < 4; i++) {
-      $("#peg" + engine.currentRow + "-" + i).attr("src", EMPTY_PEG_IMG);
+      $("#peg" + gameEngine.currentRow + "-" + i).attr("src", EMPTY_PEG_IMG);
     }
-  }
-  disableSubmitButton();
+    disableSubmitButton();
+  });
 }
 
 
