@@ -79,16 +79,16 @@ $('.dropdown-menu a').click(function () {
 // submit function (what happens when the submit button is clicked):
 function submit() {
 
-  // get the current game engine to ensure that the current guess has 4 pegs:
+  // get the current game engine to ensure that the current guess has NUM_PEGS pegs:
   $.get("./current-game", function (gameEngineGET) {
-    if (gameEngineGET.currentSeqSize == 4) {
+    if (gameEngineGET.currentSeqSize == NUM_PEGS) {
 
       // send submit request to server:
       $.post("./submit-peg-seq", function (gameEngine) {
         allBlank = true;
 
         // show the rockets:
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < NUM_PEGS; i++) {
           rocketFill = gameEngine.currentRocketSeq[i].fill;
           $("#rocket" + (gameEngine.currentRow + 1) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
           if (rocketFill != EMPTY_ROCKET) {
@@ -113,7 +113,7 @@ function submit() {
       });
     }
     else {
-      alert("Each guess must contain 4 aliens");
+      alert("Each guess must contain " + NUM_PEGS + " aliens");
     }
   });
 }
@@ -123,7 +123,7 @@ function submit() {
 function clear() {
   // clear all the pegs:
   $.post("./clear-peg-seq", function (gameEngine) {
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < NUM_PEGS; i++) {
       $("#peg" + gameEngine.currentRow + "-" + i).attr("src", EMPTY_PEG_IMG);
     }
     disableSubmitButton();
@@ -167,7 +167,7 @@ function lose() {
 
 function showGoal() {
   $.get("./current-game", function (gameEngine) {
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < NUM_PEGS; i++) {
       $("#goal-" + i).attr("src", pegImageSources.get(gameEngine.goal.sequence[i].color));
     }
   });
@@ -280,7 +280,7 @@ function addColorButtonHandlers() {
     $.get("./current-game", function (gameEngine) {
 
       // only respond if the current sequence isn't already full:
-      if (gameEngine.currentSeqSize < 4) {
+      if (gameEngine.currentSeqSize < NUM_PEGS) {
         if (source == "btn-red") {
           addPeg(RED_PEG);
         } else if (source == "btn-yellow") {
@@ -309,8 +309,8 @@ function addPeg(color) {
   $.post("./add-peg/" + color, function (gameEngine) {
     $("#peg" + gameEngine.currentRow + "-" + (gameEngine.currentCol - 1)).attr("src", pegImageSources.get(gameEngine.lastPeg.color));
 
-    // enable submit button only if current guess contains 4 pegs:
-    if (gameEngine.currentSeqSize == 4) {
+    // enable submit button only if current guess contains NUM_PEGS pegs:
+    if (gameEngine.currentSeqSize == NUM_PEGS) {
       enableSubmitButton();
     } else {
       disableSubmitButton();
@@ -328,7 +328,7 @@ function changeLevel(level) {
 
 function disableSubmitButton() {
   $("#btn-submit").prop("disabled", true);
-  $("#btn-submit").attr("title", "Each guess must contain 4 aliens");
+  $("#btn-submit").attr("title", "Each guess must contain " + NUM_PEGS + " aliens");
 }
 
 
