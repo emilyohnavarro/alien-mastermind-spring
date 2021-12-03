@@ -7,7 +7,7 @@ public class Goal {
 	private int[] beenCounted;
 	private int level;
 	private Random rand = new Random();
-	private static final int NUM_PEGS = 4;
+	public static final int NUM_PEGS = 4;
 	public static final int COUNTEDBLUE = 1;
 	public static final int COUNTEDWHITE = 2;
 	public static final int NOTCOUNTED = 3;
@@ -129,7 +129,7 @@ public class Goal {
 	}
 
 	public void clearAllCounts() {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < NUM_PEGS; i++) {
 			beenCounted[i] = NOTCOUNTED;
 		}
 	}

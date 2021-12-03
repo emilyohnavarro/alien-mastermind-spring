@@ -21,35 +21,35 @@ public class GameEngine {
 
     public GameEngine(int level) {
         target = new Goal(level);
-        currentPegSeq = new ArrayList<>(4);
-        currentRocketSeq = new ArrayList<>(4);
+        currentPegSeq = new ArrayList<>(GameEngine.NUM_PEGS);
+        currentRocketSeq = new ArrayList<>(GameEngine.NUM_PEGS);
         currentRow = 9;
         currentCol = 0;
         winOrLose = INPROGRESS;
     }
 
     public void addPegToSeq(int color) {
-        if (currentPegSeq.size() < 4) {
+        if (currentPegSeq.size() < GameEngine.NUM_PEGS) {
             currentPegSeq.add(new Peg(color));
             currentCol++;
         }
     }
 
     public void submitPegSeq() {
-        if (currentPegSeq.size() == 4) {
+        if (currentPegSeq.size() == GameEngine.NUM_PEGS) {
             int numBlueRockets = 0;
             int numWhiteRockets = 0;
 
-            for (int i = 0; i < 4; i++) // go through each peg in sequence
+            for (int i = 0; i < GameEngine.NUM_PEGS; i++) // go through each peg in sequence
             {
                 if (((Peg) currentPegSeq.get(i)).getColor() == (target.getSequence(i).getColor())) {
                     numBlueRockets++;
                     target.setPegCount(i, Goal.COUNTEDBLUE);
                 }
             }
-            for (int i = 0; i < 4; i++) // go through each peg again to test for white rockets
+            for (int i = 0; i < GameEngine.NUM_PEGS; i++) // go through each peg again to test for white rockets
             {
-                goThruTarget: for (int j = 0; j < 4; j++) // go through each peg in target until there is a match or
+                goThruTarget: for (int j = 0; j < GameEngine.NUM_PEGS; j++) // go through each peg in target until there is a match or
                                                           // target
                                                           // sequence has been exhaustively searched
                 {
@@ -62,13 +62,13 @@ public class GameEngine {
                     }
                 }
             }
-            if (numBlueRockets == 4) {
+            if (numBlueRockets == GameEngine.NUM_PEGS) {
                 winOrLose = WIN;
             }
-            if ((numBlueRockets != 4) && currentRow == 0) {
+            if ((numBlueRockets != GameEngine.NUM_PEGS) && currentRow == 0) {
                 winOrLose = LOSE;
             }
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < GameEngine.NUM_PEGS; i++) {
                 if (numBlueRockets > 0) {
                     Rocket r = new Rocket(Rocket.BLUE);
                     currentRocketSeq.add(i, r);
