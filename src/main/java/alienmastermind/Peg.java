@@ -1,12 +1,7 @@
 package alienmastermind;
 
-import javax.swing.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Peg {
 	private int color;
-	private ImageIcon img;
 	
 	public static final int RED = 1;
 	public static final int YELLOW = 2;
@@ -20,43 +15,9 @@ public class Peg {
 
 	public Peg(int color1) {
 		color = color1;
-		switch (color) {
-		case RED:
-			img = new ImageIcon("res/redAlien.gif");
-			break;
-		case YELLOW:
-			img = new ImageIcon("res/yellowAlien.gif");
-			break;
-		case GREEN:
-			img = new ImageIcon("res/greenAlien.gif");
-			break;
-		case PURPLE:
-			img = new ImageIcon("res/purpleAlien.gif");
-			break;
-		case BLUE:
-			img = new ImageIcon("res/blueAlien.gif");
-			break;
-		case ORANGE:
-			img = new ImageIcon("res/orangeAlien.gif");
-			break;
-		case PINK:
-			img = new ImageIcon("res/pinkAlien.gif");
-			break;
-		case AQUA:
-			img = new ImageIcon("res/aquaAlien.gif");
-			break;
-		default:
-			img = new ImageIcon("res/emptyPeg.gif");
-			break;
-		}
 	}
 
 	public int getColor() {
 		return color;
 	}
-
-	// @JsonIgnore
-	// public ImageIcon getImage() {
-	// 	return img;
-	// }
 }
