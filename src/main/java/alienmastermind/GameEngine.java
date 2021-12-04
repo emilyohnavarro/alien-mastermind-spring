@@ -116,10 +116,6 @@ public class GameEngine {
         return currentPegSeq.size();
     }
 
-    public Rocket getCurrentRocketSeq(int index) {
-        return currentRocketSeq.get(index);
-    }
-
     public List<Rocket> getCurrentRocketSeq() {
         return currentRocketSeq;
     }
