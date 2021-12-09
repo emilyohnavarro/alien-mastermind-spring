@@ -10,19 +10,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AlienMastermindController {
+	
 	private GameEngine engine;
-
-	@PostMapping("/new-game/{level}")
-	public GameEngine newGame(@PathVariable String level) {
-		// System.out.println("reached new-game endpoint in controller");
-		engine = new GameEngine(Integer.parseInt(level));
-		return engine;
-	}
 
 
 	@GetMapping("/current-game")
 	public GameEngine getCurrentGame() {
 		// System.out.println("reached get endpoint, about to return engine with last peg color of " + engine.getLastPeg().getColor());
+		return engine;
+	}
+
+	
+	@PostMapping("/new-game/{level}")
+	public GameEngine newGame(@PathVariable String level) {
+		// System.out.println("reached new-game endpoint in controller");
+		engine = new GameEngine(Integer.parseInt(level));
 		return engine;
 	}
 

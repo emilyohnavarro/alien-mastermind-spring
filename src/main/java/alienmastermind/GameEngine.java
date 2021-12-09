@@ -17,7 +17,6 @@ public class GameEngine {
     public static final int WIN = 1;
     public static final int LOSE = 2;
     public static final int INPROGRESS = 3;
-    public static final int DEFAULT_LEVEL = 1;
 
     public GameEngine(int level) {
         target = new Goal(level);

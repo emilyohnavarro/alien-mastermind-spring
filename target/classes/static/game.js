@@ -7,15 +7,15 @@ const RED_PEG_IMG = "images/redAlien.gif", YELLOW_PEG_IMG = "images/yellowAlien.
   PINK_PEG_IMG = "images/pinkAlien.gif", AQUA_PEG_IMG = "images/aquaAlien.gif", EMPTY_PEG_IMG = "images/emptyPeg.gif";
 
 const pegImageSources = new Map([
-  [RED_PEG, "images/redAlien.gif"],
-  [YELLOW_PEG, "images/yellowAlien.gif"],
-  [GREEN_PEG, "images/greenAlien.gif"],
-  [PURPLE_PEG, "images/purpleAlien.gif"],
-  [BLUE_PEG, "images/blueAlien.gif"],
-  [ORANGE_PEG, "images/orangeAlien.gif"],
-  [PINK_PEG, "images/pinkAlien.gif"],
-  [AQUA_PEG, "images/aquaAlien.gif"],
-  [EMPTY_PEG, "images/emptyPeg.gif"],
+  [RED_PEG, RED_PEG_IMG],
+  [YELLOW_PEG, YELLOW_PEG_IMG],
+  [GREEN_PEG, GREEN_PEG_IMG],
+  [PURPLE_PEG, PURPLE_PEG_IMG],
+  [BLUE_PEG, BLUE_PEG_IMG],
+  [ORANGE_PEG, ORANGE_PEG_IMG],
+  [PINK_PEG, PINK_PEG_IMG],
+  [AQUA_PEG, AQUA_PEG_IMG],
+  [EMPTY_PEG, EMPTY_PEG_IMG],
 ]);
 
 
@@ -44,7 +44,6 @@ const WIN = 1, LOSE = 2, IN_PROGRESS = 3;
 // Main: =========================================================
 const DEFAULT_LEVEL = 1;
 const RED_X_IMG = "images/x.png";
-
 
 // start a new game:
 newGame(DEFAULT_LEVEL);
@@ -124,7 +123,7 @@ function clear() {
   // clear all the pegs:
   $.post("./clear-peg-seq", function (gameEngine) {
     for (i = 0; i < NUM_PEGS; i++) {
-      $("#peg" + gameEngine.currentRow + "-" + i).attr("src", EMPTY_PEG_IMG);
+      $("#peg" + gameEngine.currentRow + "-" + i).attr("src", pegImageSources.get(EMPTY_PEG));
     }
     disableSubmitButton();
   });
@@ -215,10 +214,10 @@ function newGame(level) {
 function resetUI(gameEngine) {
 
   // clear all peg images:
-  $(".peg-img").attr("src", EMPTY_PEG_IMG);
+  $(".peg-img").attr("src", pegImageSources.get(EMPTY_PEG));
 
   // clear all rocket images:
-  $(".rocket-img").attr("src", EMPTY_ROCKET_IMG);
+  $(".rocket-img").attr("src", rocketImageSources.get(EMPTY_ROCKET));
 
   // hide red x images:
   $(".x").hide();
