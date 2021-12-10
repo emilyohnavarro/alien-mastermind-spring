@@ -82,8 +82,8 @@ function submit() {
   $.get("./current-game", function (gameEngineGET) {
     if (gameEngineGET.currentSeqSize == NUM_PEGS) {
 
-      // send submit request to server:
-      $.post("./submit-peg-seq", function (gameEngine) {
+      // send submit request to server: 
+      $.post("./peg-seq/" + false, function (gameEngine) {
         allBlank = true;
 
         // show the rockets:
@@ -121,7 +121,7 @@ function submit() {
 // clear function (what happens when the clear button is clicked):
 function clear() {
   // clear all the pegs:
-  $.post("./clear-peg-seq", function (gameEngine) {
+  $.post("./peg-seq/" + true, function (gameEngine) {
     for (i = 0; i < NUM_PEGS; i++) {
       $("#peg" + gameEngine.currentRow + "-" + i).attr("src", pegImageSources.get(EMPTY_PEG));
     }
@@ -305,7 +305,7 @@ function addColorButtonHandlers() {
 
 // adds a peg to the current sequence:
 function addPeg(color) {
-  $.post("./add-peg/" + color, function (gameEngine) {
+  $.post("./peg/" + color, function (gameEngine) {
     $("#peg" + gameEngine.currentRow + "-" + (gameEngine.currentCol - 1)).attr("src", pegImageSources.get(gameEngine.lastPeg.color));
 
     // enable submit button only if current guess contains NUM_PEGS pegs:

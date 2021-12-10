@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AlienMastermindController {
-	
+
 	private GameEngine engine;
 
 
@@ -29,7 +29,7 @@ public class AlienMastermindController {
 	}
 
 
-	@PostMapping("/add-peg/{color}")
+	@PostMapping("/peg/{color}")
 	public GameEngine addPegToSequence(@PathVariable int color) {
 		// System.out.println("reached post add peg endpoint with color " + color);
 		engine.addPegToSeq(color);
@@ -37,18 +37,14 @@ public class AlienMastermindController {
 	}
 
 
-	@PostMapping("/submit-peg-seq")
-	public GameEngine submitPegSequence() {
-		// System.out.println("reached post submit peg seq endpoint");
-		engine.submitPegSeq();
-		return engine;
-	}
-
-
-	@PostMapping("/clear-peg-seq")
-	public GameEngine clearPegSequence() {
-		// System.out.println("reached post clear peg seq endpoint");
-		engine.clearCurrentPegSeq();
+	@PostMapping("/peg-seq/{clear}")
+	public GameEngine submitPegSequence(@PathVariable boolean clear) {
+		if (clear) { // clear peg sequence
+			engine.clearCurrentPegSeq();
+		}
+		else {
+			engine.submitPegSeq();
+		}
 		return engine;
 	}
 }
