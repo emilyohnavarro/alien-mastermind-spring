@@ -13,18 +13,20 @@ public class GameEngine {
     private int currentRow;
     private int currentCol;
     private int winOrLose;
+    private String gameID;
 
     public static final int WIN = 1;
     public static final int LOSE = 2;
     public static final int INPROGRESS = 3;
 
-    public GameEngine(int level) {
+    public GameEngine(String gameID, int level) {
         target = new Goal(level);
         currentPegSeq = new ArrayList<>(Goal.NUM_PEGS);
         currentRocketSeq = new ArrayList<>(Goal.NUM_PEGS);
         currentRow = 9;
         currentCol = 0;
         winOrLose = INPROGRESS;
+        this.gameID = gameID;
     }
 
     public void addPegToSeq(int color) {
@@ -132,5 +134,9 @@ public class GameEngine {
 
     public int getLevel() {
         return target.getLevel();
+    }
+
+    public String getGameID() {
+        return gameID;
     }
 }

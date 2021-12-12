@@ -45,6 +45,8 @@ const WIN = 1, LOSE = 2, IN_PROGRESS = 3;
 const DEFAULT_LEVEL = 1;
 const RED_X_IMG = "images/x.png";
 
+let gameID = "";
+
 // start a new game:
 newGame(DEFAULT_LEVEL);
 
@@ -64,7 +66,7 @@ $("#btn-instructions").click(function () {
 
 $("#btn-new-game").click(function () {
   if (confirm("Are you sure you want to start a new game?")) {
-    $.get("./current-game", function (gameEngine) {
+    $.get("./games/game/" + gameID, function (gameEngine) {
       newGame(gameEngine.level);
     });
   }
@@ -79,11 +81,11 @@ $('.dropdown-menu a').click(function () {
 function submit() {
 
   // get the current game engine to ensure that the current guess has NUM_PEGS pegs:
-  $.get("./current-game", function (gameEngineGET) {
+  $.get("./games/game/" + gameID, function (gameEngineGET) {
     if (gameEngineGET.currentSeqSize == NUM_PEGS) {
 
       // send submit request to server: 
-      $.post("./peg-seq/" + false, function (gameEngine) {
+      $.post("./games/" + gameID + "/peg-seq/" + false, function (gameEngine) {
         allBlank = true;
 
         // show the rockets:
@@ -121,7 +123,7 @@ function submit() {
 // clear function (what happens when the clear button is clicked):
 function clear() {
   // clear all the pegs:
-  $.post("./peg-seq/" + true, function (gameEngine) {
+  $.post("./games/" + gameID + "/peg-seq/" + true, function (gameEngine) {
     for (i = 0; i < NUM_PEGS; i++) {
       $("#peg" + gameEngine.currentRow + "-" + i).attr("src", pegImageSources.get(EMPTY_PEG));
     }
@@ -132,7 +134,7 @@ function clear() {
 
 // instructions function (what happens when the instructions button is clicked):
 function instructions() {
-  $.get("./current-game", function (gameEngine) {
+  $.get("./games/game/" + gameID, function (gameEngine) {
     alert("Four aliens have arranged themselves in a secret order and are hiding behind the sign marked GOAL."
     + '\n' + "There are " + (gameEngine.level + 3) + " different possible colors of aliens."
     + '\n'
@@ -165,7 +167,7 @@ function lose() {
 
 
 function showGoal() {
-  $.get("./current-game", function (gameEngine) {
+  $.get("./games/game/" + gameID, function (gameEngine) {
     for (i = 0; i < NUM_PEGS; i++) {
       $("#goal-" + i).attr("src", pegImageSources.get(gameEngine.goal.sequence[i].color));
     }
@@ -206,12 +208,13 @@ function resetButtons() {
 
 function newGame(level) {
   // call the new-game server endpoint:
-  $.post(("./new-game/" + level), resetUI);
+  $.post(("./games/new-game/" + level), resetUI);
 }
 
 
 // resets the UI to a new game state:
 function resetUI(gameEngine) {
+  gameID = gameEngine.gameID;
 
   // clear all peg images:
   $(".peg-img").attr("src", pegImageSources.get(EMPTY_PEG));
@@ -276,7 +279,7 @@ function addColorButtonHandlers() {
   // add handlers to color buttons:
   $(".btn-color").on("click", function () {
     var source = $(this).attr("id");  
-    $.get("./current-game", function (gameEngine) {
+    $.get("./games/game/" + gameID, function (gameEngine) {
 
       // only respond if the current sequence isn't already full:
       if (gameEngine.currentSeqSize < NUM_PEGS) {
@@ -305,7 +308,7 @@ function addColorButtonHandlers() {
 
 // adds a peg to the current sequence:
 function addPeg(color) {
-  $.post("./peg/" + color, function (gameEngine) {
+  $.post("./games/" + gameID + "/peg/" + color, function (gameEngine) {
     $("#peg" + gameEngine.currentRow + "-" + (gameEngine.currentCol - 1)).attr("src", pegImageSources.get(gameEngine.lastPeg.color));
 
     // enable submit button only if current guess contains NUM_PEGS pegs:
