@@ -344,3 +344,8 @@ function generateColorButtonHtml(color) {
   return "<div class=\"row\"><button type=\"button\" class=\"btn btn-primary btn-color\" id=\"btn-" + color.toLowerCase()
     + "\" title=\"Add " + color.toLowerCase() + " alien to your guess\">" + color.substring(0, 1).toUpperCase() + color.substring(1) + "</button></div>";
 }
+
+window.onbeforeunload = function () {
+  console.log("detected close/refresh");
+  $.post("./games/" + gameID);
+ }
