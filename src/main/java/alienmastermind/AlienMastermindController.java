@@ -71,6 +71,7 @@ public class AlienMastermindController {
 		System.out.println("reached delete game endpoint");
 		GameEngine game = findGameByID(id);
 		games.remove(game);
+		System.out.println("Just deleted game; Now # games: " + games.size());
 	}
 
 

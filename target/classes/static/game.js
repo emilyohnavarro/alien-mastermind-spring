@@ -136,18 +136,18 @@ function clear() {
 function instructions() {
   $.get("./games/game/" + gameID, function (gameEngine) {
     alert("Four aliens have arranged themselves in a secret order and are hiding behind the sign marked GOAL."
-    + '\n' + "There are " + (gameEngine.level + 3) + " different possible colors of aliens."
-    + '\n'
-    + "There may be more than one alien of the same color, and there may be no alien of a particular color."
-    + '\n'
-    + "Try to guess the order in which the four aliens are arranged before you reach the end of the board."
-    + '\n'
-    + "After each guess, zero to four rockets will appear on the rocket panel on the left."
-    + '\n'
-    + "Each blue rocket means that you have placed an alien of the right color in the right position."
-    + '\n'
-    + "Each white rocket means that you have placed an alien of the right color in the wrong position."
-    + '\n' + '\n' + "You are currently playing level " + gameEngine.level);
+      + '\n' + "There are " + (gameEngine.level + 3) + " different possible colors of aliens."
+      + '\n'
+      + "There may be more than one alien of the same color, and there may be no alien of a particular color."
+      + '\n'
+      + "Try to guess the order in which the four aliens are arranged before you reach the end of the board."
+      + '\n'
+      + "After each guess, zero to four rockets will appear on the rocket panel on the left."
+      + '\n'
+      + "Each blue rocket means that you have placed an alien of the right color in the right position."
+      + '\n'
+      + "Each white rocket means that you have placed an alien of the right color in the wrong position."
+      + '\n' + '\n' + "You are currently playing level " + gameEngine.level);
   });
 }
 
@@ -214,6 +214,13 @@ function newGame(level) {
 
 // resets the UI to a new game state:
 function resetUI(gameEngine) {
+
+  if (gameID.length > 0) { // gameID is not empty
+    // delete the old game:
+    $.post("./games/" + gameID);
+  }
+
+  // set the new gameID:
   gameID = gameEngine.gameID;
 
   // clear all peg images:
@@ -278,7 +285,7 @@ function addColorButtonHandlers() {
 
   // add handlers to color buttons:
   $(".btn-color").on("click", function () {
-    var source = $(this).attr("id");  
+    var source = $(this).attr("id");
     $.get("./games/game/" + gameID, function (gameEngine) {
 
       // only respond if the current sequence isn't already full:
@@ -346,6 +353,5 @@ function generateColorButtonHtml(color) {
 }
 
 window.onbeforeunload = function () {
-  console.log("detected close/refresh");
   $.post("./games/" + gameID);
- }
+}
