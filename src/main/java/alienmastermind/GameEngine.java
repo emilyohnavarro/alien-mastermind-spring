@@ -1,3 +1,6 @@
+/**
+ * Engine for Alien Mastermind
+ */
 package alienmastermind;
 
 import java.util.ArrayList;
@@ -19,6 +22,13 @@ public class GameEngine {
     public static final int LOSE = 2;
     public static final int INPROGRESS = 3;
 
+
+    /**
+     * Constructs a new GameEngine with the given ID and level
+     * 
+     * @param gameID    ID of the game
+     * @param level     Level of the game
+     */
     public GameEngine(String gameID, int level) {
         target = new Goal(level);
         currentPegSeq = new ArrayList<>(Goal.NUM_PEGS);
@@ -29,6 +39,12 @@ public class GameEngine {
         this.gameID = gameID;
     }
 
+
+    /**
+     * Adds a peg to the current guess sequence
+     * 
+     * @param color color of the peg to add to sequence
+     */
     public void addPegToSeq(int color) {
         if (currentPegSeq.size() < Goal.NUM_PEGS) {
             currentPegSeq.add(new Peg(color));
@@ -36,6 +52,10 @@ public class GameEngine {
         }
     }
 
+
+    /**
+     * Submits the current guess sequence, setting the rockets accordingly
+     */
     public void submitPegSeq() {
         if (currentPegSeq.size() == Goal.NUM_PEGS) {
             int numBlueRockets = 0;
@@ -43,7 +63,7 @@ public class GameEngine {
 
             for (int i = 0; i < Goal.NUM_PEGS; i++) // go through each peg in sequence
             {
-                if (((Peg) currentPegSeq.get(i)).getColor() == (target.getSequence(i).getColor())) {
+                if (currentPegSeq.get(i).getColor() == target.getSequence(i).getColor()) { // right color, right place
                     numBlueRockets++;
                     target.setPegCount(i, Goal.COUNTEDBLUE);
                 }
@@ -54,21 +74,23 @@ public class GameEngine {
                                                           // target
                                                           // sequence has been exhaustively searched
                 {
-                    if ((((Peg) currentPegSeq.get(i)).getColor() == (target.getSequence(j).getColor()))
+                    if ((currentPegSeq.get(i).getColor() == target.getSequence(j).getColor())
                             && (target.getPegCount(i) != Goal.COUNTEDBLUE)
-                            && (target.getPegCount(j) == Goal.NOTCOUNTED)) {
+                            && (target.getPegCount(j) == Goal.NOTCOUNTED)) { // right color, wrong place
                         numWhiteRockets++;
                         target.setPegCount(j, Goal.COUNTEDWHITE);
                         break goThruTarget;
                     }
                 }
             }
-            if (numBlueRockets == Goal.NUM_PEGS) {
+            if (numBlueRockets == Goal.NUM_PEGS) { // guess contains all right colors, right spots
                 winOrLose = WIN;
             }
-            if ((numBlueRockets != Goal.NUM_PEGS) && currentRow == 0) {
+            if ((numBlueRockets != Goal.NUM_PEGS) && currentRow == 0) { // guess wrong, out of guesses
                 winOrLose = LOSE;
             }
+
+            // add the rockets to the rocket sequence:
             for (int i = 0; i < Goal.NUM_PEGS; i++) {
                 if (numBlueRockets > 0) {
                     Rocket r = new Rocket(Rocket.BLUE);
@@ -85,6 +107,8 @@ public class GameEngine {
                     }
                 }
             }
+
+            // reset everything for the next guess:
             currentPegSeq.clear();
             currentRow--;
             currentCol = 0;
@@ -92,18 +116,44 @@ public class GameEngine {
         }
     }
 
+
+    /**
+     * Returns the hidden goal sequence
+     * 
+     * @return  the hidden goal sequence
+     */
     public Goal getGoal() {
         return target;
     }
 
+
+    /**
+     * Returns which row of guesses the user is currently on 
+     * (starts at 9 on the bottom, goes to 0 on the top) 
+     * 
+     * @return  which row of guesses the user is currently on 
+     */
     public int getCurrentRow() {
         return currentRow;
     }
 
+
+    /**
+     * Returns which column of guesses the user is currently on 
+     * (starts at 0 to the left, 3 to the right) 
+     * 
+     * @return  which column of guesses the user is currently on 
+     */
     public int getCurrentCol() {
         return currentCol;
     }
 
+
+    /**
+     * Returns which peg was last guessed in the current sequence
+     * 
+     * @return  which peg was last guessed in the current sequence
+     */
     // @JsonIgnore
     public Peg getLastPeg() {
         if (currentPegSeq.size() > 0) {
@@ -113,14 +163,30 @@ public class GameEngine {
         }
     }
 
+
+    /**
+     * Returns how many pegs are in the current guess sequence
+     * 
+     * @return  how many pegs are in the current guess sequence
+     */
     public int getCurrentSeqSize() {
         return currentPegSeq.size();
     }
 
+
+    /**
+     * Returns the sequence of rockets for the current guess
+     * 
+     * @return  the sequence of rockets for the current guess
+     */
     public List<Rocket> getCurrentRocketSeq() {
         return currentRocketSeq;
     }
 
+
+    /**
+     * Clears the current guess sequence
+     */
     public void clearCurrentPegSeq() {
         if (currentPegSeq.size() > 0) {
             currentPegSeq.clear();
@@ -128,14 +194,32 @@ public class GameEngine {
         }
     }
 
+
+    /**
+     * Returns GameEngine.WIN, GameEngine.LOSE, or GameEngine.INPROGRESS
+     * 
+     * @return  GameEngine.WIN, GameEngine.LOSE, or GameEngine.INPROGRESS
+     */
     public int getPlayerStatus() {
         return winOrLose;
     }
 
+
+    /**
+     * Returns the current level being played
+     * 
+     * @return  the current level being played
+     */
     public int getLevel() {
         return target.getLevel();
     }
 
+
+    /**
+     * Returns the ID of this game
+     * 
+     * @return  the ID of this game
+     */
     public String getGameID() {
         return gameID;
     }

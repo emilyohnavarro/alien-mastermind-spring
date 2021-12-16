@@ -1,3 +1,7 @@
+/**
+ * Rest Controller for the Alien Mastermind game
+ */
+
 package alienmastermind;
 
 import java.security.Identity;
@@ -20,6 +24,12 @@ public class AlienMastermindController {
 	private List<GameEngine> games = new ArrayList<>();
 
 
+	/**
+	 * Returns the game with the given id
+	 * 
+	 * @param id	id of the game to get
+	 * @return		the game engine with the given id
+	 */
 	@GetMapping("/games/game/{id}")
 	public GameEngine getGame(@PathVariable String id) {
 		// System.out.println("reached get endpoint, about to return engine with last peg color of " + engine.getLastPeg().getColor());
@@ -27,6 +37,12 @@ public class AlienMastermindController {
 	}
 
 	
+	/**
+	 * Creates and returns a new game with the given level
+	 * 
+	 * @param level	level of the new game
+	 * @return		the newly created game engine
+	 */
 	@PostMapping("/games/new-game/{level}")
 	public GameEngine newGame(@PathVariable String level) {
 		// System.out.println("reached new-game endpoint in controller");
@@ -36,6 +52,13 @@ public class AlienMastermindController {
 	}
 
 
+	/**
+	 * Adds a peg to the current guess sequence of the game with the given id
+	 * 
+	 * @param id	id of the game to which to add the peg
+	 * @param color	color of the peg to add
+	 * @return		the updated game engine
+	 */
 	@PostMapping("/games/{id}/peg/{color}")
 	public GameEngine addPegToSequence(@PathVariable String id, @PathVariable int color) {
 		// System.out.println("reached post add peg endpoint with color " + color);
@@ -65,7 +88,11 @@ public class AlienMastermindController {
 	}
 
 
-	// delete game:
+	/**
+	 * Deletes the game with the given id
+	 * 
+	 * @param id	id of the game to delete
+	 */
 	@DeleteMapping("/games/{id}")
 	public void deleteGame(@PathVariable String id) {
 		System.out.println("reached delete game endpoint");
@@ -75,6 +102,12 @@ public class AlienMastermindController {
 	}
 
 
+	/**
+	 * Finds and returns the game engine with the given id in the list of current games
+	 * 
+	 * @param id	id of the game to find
+	 * @return		the game with the given id, or null if not found
+	 */
 	private GameEngine findGameByID(String id) {
 		for (GameEngine game : games) {
 			if (game.getGameID().equals(id)) {

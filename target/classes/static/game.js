@@ -217,8 +217,6 @@ function resetUI(gameEngine) {
 
   if (gameID.length > 0) { // gameID is not empty
     // delete the old game:
-    // $.post("./games/" + gameID);
-
     $.ajax({
       url: "./games/" + gameID,
       type: 'DELETE',
@@ -358,7 +356,6 @@ function generateColorButtonHtml(color) {
 }
 
 window.onbeforeunload = function () {
-  // $.post("./games/" + gameID);
   $.ajax({
     url: "./games/" + gameID,
     type: 'DELETE',
