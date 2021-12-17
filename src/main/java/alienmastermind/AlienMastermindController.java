@@ -95,10 +95,8 @@ public class AlienMastermindController {
 	 */
 	@DeleteMapping("/games/{id}")
 	public void deleteGame(@PathVariable String id) {
-		System.out.println("reached delete game endpoint");
 		GameEngine game = findGameByID(id);
 		games.remove(game);
-		System.out.println("Just deleted game; Now # games: " + games.size());
 	}
 
 

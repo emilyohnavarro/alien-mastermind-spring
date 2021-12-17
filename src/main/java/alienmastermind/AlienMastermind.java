@@ -1,3 +1,7 @@
+/**
+ * Alien Mastermind main Spring Boot application
+ */
+
 package alienmastermind;
 
 import org.springframework.boot.SpringApplication;

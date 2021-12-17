@@ -1,3 +1,7 @@
+/**
+ * Represents one peg (alien) in Alien Mastermind
+ */
+
 package alienmastermind;
 
 public class Peg {
