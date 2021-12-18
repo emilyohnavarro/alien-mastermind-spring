@@ -86,11 +86,11 @@ function submit() {
 
       // send submit request to server: 
       $.post("./games/" + gameID + "/peg-seq/" + false, function (gameEngine) {
-        allBlank = true;
+        let allBlank = true;
 
         // show the rockets:
-        for (i = 0; i < NUM_PEGS; i++) {
-          rocketFill = gameEngine.currentRocketSeq[i].fill;
+        for (let i = 0; i < NUM_PEGS; i++) {
+          let rocketFill = gameEngine.currentRocketSeq[i].fill;
           $("#rocket" + (gameEngine.currentRow + 1) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
           if (rocketFill != EMPTY_ROCKET) {
             allBlank = false;
@@ -124,7 +124,7 @@ function submit() {
 function clear() {
   // clear all the pegs:
   $.post("./games/" + gameID + "/peg-seq/" + true, function (gameEngine) {
-    for (i = 0; i < NUM_PEGS; i++) {
+    for (let i = 0; i < NUM_PEGS; i++) {
       $("#peg" + gameEngine.currentRow + "-" + i).attr("src", pegImageSources.get(EMPTY_PEG));
     }
     disableSubmitButton();
@@ -168,7 +168,7 @@ function lose() {
 
 function showGoal() {
   $.get("./games/game/" + gameID, function (gameEngine) {
-    for (i = 0; i < NUM_PEGS; i++) {
+    for (let i = 0; i < NUM_PEGS; i++) {
       $("#goal-" + i).attr("src", pegImageSources.get(gameEngine.goal.sequence[i].color));
     }
   });
@@ -288,7 +288,7 @@ function addColorButtonHandlers() {
 
   // add handlers to color buttons:
   $(".btn-color").on("click", function () {
-    var source = $(this).attr("id");
+    let source = $(this).attr("id");
     $.get("./games/game/" + gameID, function (gameEngine) {
 
       // only respond if the current sequence isn't already full:
