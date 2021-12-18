@@ -1,7 +1,6 @@
 alienmastermind/Rocket.class
 alienmastermind/NullPeg.class
 alienmastermind/AlienMastermind.class
-alienmastermind/Constants.class
 alienmastermind/GameEngine.class
 alienmastermind/Goal.class
 alienmastermind/AlienMastermindController.class
