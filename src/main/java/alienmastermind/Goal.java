@@ -9,7 +9,7 @@ public class Goal {
 	private Peg[] sequence; // the actual target guess sequence
 	private int[] beenCounted; // keeps track of how each peg was counted (blue rocket, white rocket, or nothing)
 	private int level; // current level of the game
-	private Random rand = new Random();
+	private static final Random rand = new Random();
 	public static final int NUM_PEGS = 4;
 	public static final int COUNTEDBLUE = 1;
 	public static final int COUNTEDWHITE = 2;

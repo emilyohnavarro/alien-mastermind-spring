@@ -4,7 +4,6 @@
 
 package alienmastermind;
 
-import java.security.Identity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -69,7 +68,7 @@ public class AlienMastermindController {
 
 
 	/**
-	 * Submits or clears the current peg sequence
+	 * Submits or clears the current peg sequence of the game with the given ID
 	 * 
 	 * @param clear	whether or not to clear the current peg sequence for this game
 	 * 

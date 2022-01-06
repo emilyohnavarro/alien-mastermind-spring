@@ -8,7 +8,12 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.data.annotation.Id;
+
 public class GameEngine {
+
+    @Id
+    private String id;
 
     private Goal target;
     private List<Peg> currentPegSeq;
@@ -16,6 +21,7 @@ public class GameEngine {
     private int currentRow;
     private int currentCol;
     private int winOrLose;
+
     private String gameID;
 
     public static final int WIN = 1;
