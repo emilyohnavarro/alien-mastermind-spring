@@ -12,16 +12,18 @@ import org.springframework.data.annotation.Id;
 
 public class GameEngine {
 
-    @Id
-    private String id;
+    
+    // private String id;
 
+    private int level;
     private Goal target;
     private List<Peg> currentPegSeq;
     private List<Rocket> currentRocketSeq;
     private int currentRow;
     private int currentCol;
     private int winOrLose;
-
+    
+    @Id
     private String gameID;
 
     public static final int WIN = 1;
@@ -36,6 +38,7 @@ public class GameEngine {
      * @param level     Level of the game
      */
     public GameEngine(String gameID, int level) {
+        this.level = level;
         target = new Goal(level);
         currentPegSeq = new ArrayList<>(Goal.NUM_PEGS);
         currentRocketSeq = new ArrayList<>(Goal.NUM_PEGS);

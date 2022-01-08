@@ -17,8 +17,8 @@ public class Peg {
 	public static final int AQUA = 8;
 	public static final int EMPTY = 9;
 
-	public Peg(int color1) {
-		color = color1;
+	public Peg(int color) {
+		this.color = color;
 	}
 
 	public int getColor() {

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlienMastermindController {
 
 	private List<GameEngine> games = new ArrayList<>();
+
+	@Autowired
+	private GameEngineRepository repository;
 
 
 	/**
@@ -47,6 +51,9 @@ public class AlienMastermindController {
 		// System.out.println("reached new-game endpoint in controller");
 		GameEngine game = new GameEngine(UUID.randomUUID().toString(), Integer.parseInt(level));
 		games.add(game);
+		repository.save(game);
+		System.out.println("Saved game with id " + game.getGameID() + " to repo");
+		System.out.println("ID found in repo: " + repository.findByGameID(game.getGameID()).getGameID());
 		return game;
 	}
 
@@ -96,6 +103,7 @@ public class AlienMastermindController {
 	public void deleteGame(@PathVariable String id) {
 		GameEngine game = findGameByID(id);
 		games.remove(game);
+		repository.delete(game);
 	}
 
 
@@ -106,6 +114,7 @@ public class AlienMastermindController {
 	 * @return		the game with the given id, or null if not found
 	 */
 	private GameEngine findGameByID(String id) {
+		// return repository.findByGameID(id);
 		for (GameEngine game : games) {
 			if (game.getGameID().equals(id)) {
 				return game;

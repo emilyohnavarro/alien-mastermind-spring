@@ -19,10 +19,10 @@ public class Goal {
 	/**
 	 * Creates a new Goal, based on the given level
 	 * 
-	 * @param currentLevel	current level of the game
+	 * @param level	current level of the game
 	 */
-	public Goal(int currentLevel) {
-		level = currentLevel;
+	public Goal(int level) {
+		this.level = level;
 		sequence = new Peg[NUM_PEGS];
 		beenCounted = new int[NUM_PEGS];
 		for (int i : beenCounted) {

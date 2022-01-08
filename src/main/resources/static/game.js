@@ -105,10 +105,10 @@ function submit() {
         disableSubmitButton();
 
         // check for win/loss:
-        if (gameEngine.playerStatus == WIN) {
+        if (gameEngine.winOrLose == WIN) {
           win();
         }
-        if (gameEngine.playerStatus == LOSE) {
+        if (gameEngine.winOrLose == LOSE) {
           lose();
         }
       });
