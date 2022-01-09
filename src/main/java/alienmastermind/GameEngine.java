@@ -12,9 +12,6 @@ import org.springframework.data.annotation.Id;
 
 public class GameEngine {
 
-    
-    // private String id;
-
     private int level;
     private Goal target;
     private List<Peg> currentPegSeq;
@@ -209,7 +206,7 @@ public class GameEngine {
      * 
      * @return  GameEngine.WIN, GameEngine.LOSE, or GameEngine.INPROGRESS
      */
-    public int getPlayerStatus() {
+    public int getWinOrLose() {
         return winOrLose;
     }
 

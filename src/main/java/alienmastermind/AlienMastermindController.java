@@ -53,7 +53,6 @@ public class AlienMastermindController {
 		games.add(game);
 		repository.save(game);
 		System.out.println("Saved game with id " + game.getGameID() + " to repo");
-		System.out.println("ID found in repo: " + repository.findByGameID(game.getGameID()).getGameID());
 		return game;
 	}
 
@@ -68,7 +67,9 @@ public class AlienMastermindController {
 	@PostMapping("/games/{id}/peg/{color}")
 	public GameEngine addPegToSequence(@PathVariable String id, @PathVariable int color) {
 		// System.out.println("reached post add peg endpoint with color " + color);
+		System.out.println("About to look in repo for game with ID: " + id);
 		GameEngine game = findGameByID(id);
+		System.out.println("game found has id: " + game.getGameID());
 		game.addPegToSeq(color);
 		return game;
 	}
