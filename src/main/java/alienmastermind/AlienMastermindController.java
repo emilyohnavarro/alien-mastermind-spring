@@ -52,7 +52,6 @@ public class AlienMastermindController {
 		GameEngine game = new GameEngine(UUID.randomUUID().toString(), Integer.parseInt(level));
 		games.add(game);
 		repository.save(game);
-		System.out.println("Saved game with id " + game.getGameID() + " to repo");
 		return game;
 	}
 
@@ -66,11 +65,9 @@ public class AlienMastermindController {
 	 */
 	@PostMapping("/games/{id}/peg/{color}")
 	public GameEngine addPegToSequence(@PathVariable String id, @PathVariable int color) {
-		// System.out.println("reached post add peg endpoint with color " + color);
-		System.out.println("About to look in repo for game with ID: " + id);
 		GameEngine game = findGameByID(id);
-		System.out.println("game found has id: " + game.getGameID());
 		game.addPegToSeq(color);
+		repository.save(game);
 		return game;
 	}
 
@@ -91,6 +88,7 @@ public class AlienMastermindController {
 		else {
 			game.submitPegSeq();
 		}
+		repository.save(game);
 		return game;
 	}
 
@@ -115,12 +113,12 @@ public class AlienMastermindController {
 	 * @return		the game with the given id, or null if not found
 	 */
 	private GameEngine findGameByID(String id) {
-		// return repository.findByGameID(id);
-		for (GameEngine game : games) {
-			if (game.getGameID().equals(id)) {
-				return game;
-			}
-		}
-		return null;
+		return repository.findByGameID(id);
+		// for (GameEngine game : games) {
+		// 	if (game.getGameID().equals(id)) {
+		// 		return game;
+		// 	}
+		// }
+		// return null;
 	}
 }

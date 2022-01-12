@@ -9,6 +9,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 public class GameEngine {
 
@@ -43,6 +44,19 @@ public class GameEngine {
         currentCol = 0;
         winOrLose = INPROGRESS;
         this.gameID = gameID;
+    }
+
+
+    @PersistenceConstructor
+    public GameEngine(String gameID, int level, Goal target, List<Peg> currentPegSeq, List<Rocket> currentRocketSeq, int currentRow, int currentCol, int winOrLose) {
+        this.gameID = gameID;
+        this.level = level;
+        this.target = target;
+        this.currentPegSeq = currentPegSeq;
+        this.currentRocketSeq = currentRocketSeq;
+        this.currentRow = currentRow;
+        this.currentCol = currentCol;
+        this.winOrLose = winOrLose;
     }
 
 
