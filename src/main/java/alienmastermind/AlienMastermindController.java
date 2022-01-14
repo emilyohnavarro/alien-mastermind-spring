@@ -31,6 +31,7 @@ public class AlienMastermindController {
 	 * Returns the game with the given id
 	 * 
 	 * @param id	id of the game to get
+	 * 
 	 * @return		the game engine with the given id
 	 */
 	@GetMapping("/games/game/{id}")
@@ -44,6 +45,7 @@ public class AlienMastermindController {
 	 * Creates and returns a new game with the given level
 	 * 
 	 * @param level	level of the new game
+	 * 
 	 * @return		the newly created game engine
 	 */
 	@PostMapping("/games/new-game/{level}")
@@ -51,7 +53,7 @@ public class AlienMastermindController {
 		// System.out.println("reached new-game endpoint in controller");
 		GameEngine game = new GameEngine(UUID.randomUUID().toString(), Integer.parseInt(level));
 		games.add(game);
-		repository.save(game);
+		// repository.save(game);
 		return game;
 	}
 
@@ -61,13 +63,14 @@ public class AlienMastermindController {
 	 * 
 	 * @param id	id of the game to which to add the peg
 	 * @param color	color of the peg to add
+	 * 
 	 * @return		the updated game engine
 	 */
 	@PostMapping("/games/{id}/peg/{color}")
 	public GameEngine addPegToSequence(@PathVariable String id, @PathVariable int color) {
 		GameEngine game = findGameByID(id);
 		game.addPegToSeq(color);
-		repository.save(game);
+		// repository.save(game);
 		return game;
 	}
 
@@ -88,13 +91,25 @@ public class AlienMastermindController {
 		else {
 			game.submitPegSeq();
 		}
-		repository.save(game);
+		// repository.save(game);
 		return game;
 	}
 
 
 	/**
-	 * Deletes the game with the given id
+	 * Saves the current game to the mongodb database
+	 * 
+	 * @param id id of the game to save
+	 */
+	@PostMapping("/games/save-game/{id}")
+	public void saveGame(@PathVariable String id) {
+		GameEngine game = findGameByID(id);
+		repository.save(game);
+	}
+
+
+	/**
+	 * Deletes the game with the given id from memory 
 	 * 
 	 * @param id	id of the game to delete
 	 */
@@ -102,7 +117,7 @@ public class AlienMastermindController {
 	public void deleteGame(@PathVariable String id) {
 		GameEngine game = findGameByID(id);
 		games.remove(game);
-		repository.delete(game);
+		// repository.delete(game);
 	}
 
 
@@ -113,12 +128,12 @@ public class AlienMastermindController {
 	 * @return		the game with the given id, or null if not found
 	 */
 	private GameEngine findGameByID(String id) {
-		return repository.findByGameID(id);
-		// for (GameEngine game : games) {
-		// 	if (game.getGameID().equals(id)) {
-		// 		return game;
-		// 	}
-		// }
-		// return null;
+		// return repository.findByGameID(id);
+		for (GameEngine game : games) {
+			if (game.getGameID().equals(id)) {
+				return game;
+			}
+		}
+		return null;
 	}
 }

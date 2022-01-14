@@ -76,6 +76,10 @@ $('.dropdown-menu a').click(function () {
   changeLevel(parseInt($(this).text()));
 });
 
+$("#btn-save-game").click(function() {
+  saveGame();
+});
+
 
 // submit function (what happens when the submit button is clicked):
 function submit() {
@@ -186,6 +190,7 @@ function disableButtons() {
   $("#btn-aqua").prop("disabled", true);
   disableSubmitButton();
   $("#btn-clear").prop("disabled", true);
+  $("#btn-save-game").prop("disabled", true);
   $("#btn-change-level").prop("disabled", true);
 }
 
@@ -202,6 +207,7 @@ function resetButtons() {
   $("#btn-aqua").prop("disabled", false);
   disableSubmitButton();
   $("#btn-clear").prop("disabled", false);
+  $("#btn-save-game").prop("disabled", false);
   $("#btn-change-level").prop("disabled", false);
 }
 
@@ -328,6 +334,13 @@ function addPeg(color) {
       disableSubmitButton();
     }
   });
+}
+
+
+function saveGame() {
+  $.post("./games/save-game/" + gameID, function () {
+    alert("Game saved with ID " + gameID);
+  } )
 }
 
 
