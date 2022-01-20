@@ -80,6 +80,10 @@ $("#btn-save-game").click(function() {
   saveGame();
 });
 
+$("#btn-retrieve-game").click(function() {
+  retrieveGame();
+});
+
 
 // submit function (what happens when the submit button is clicked):
 function submit() {
@@ -341,6 +345,17 @@ function saveGame() {
   $.post("./games/save-game/" + gameID, function () {
     alert("Game saved with ID " + gameID);
   } )
+}
+
+
+function retrieveGame() {
+  var id = prompt("Enter the game ID");
+  if (id != null) {
+    $.get("./games/retrieve/" + gameID, function (gameEngine) {
+      alert("Game retrieved in with ID " + gameEngine.gameID);
+      // TODO: reset UI to reflect 
+    });
+  }
 }
 
 

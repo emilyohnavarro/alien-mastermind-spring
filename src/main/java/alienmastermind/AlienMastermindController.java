@@ -40,6 +40,19 @@ public class AlienMastermindController {
 		return findGameByID(id);
 	}
 
+
+	/**
+	 * Retrieves the saved game with the given id
+	 * 
+	 * @param id	id of the game to retrieve
+	 * 
+	 * @return		the game engine with the given id
+	 */
+	@GetMapping("/games/retrieve/{id}")
+	public GameEngine retrieveGame(@PathVariable String id) {
+		return repository.findByGameID(id);
+	}
+
 	
 	/**
 	 * Creates and returns a new game with the given level

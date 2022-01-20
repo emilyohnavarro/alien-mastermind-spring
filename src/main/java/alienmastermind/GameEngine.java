@@ -15,6 +15,8 @@ public class GameEngine {
 
     private int level;
     private Goal target;
+    private List<List<Peg>> pegSequences; // saves all the peg sequences from the game
+    private List<List<Rocket>> rocketSequences; // saves all the rocket sequences from the game
     private List<Peg> currentPegSeq;
     private List<Rocket> currentRocketSeq;
     private int currentRow;
@@ -23,6 +25,8 @@ public class GameEngine {
     
     @Id
     private String gameID;
+
+    private static final int NUM_ROWS = 10;
 
     public static final int WIN = 1;
     public static final int LOSE = 2;
@@ -38,9 +42,11 @@ public class GameEngine {
     public GameEngine(String gameID, int level) {
         this.level = level;
         target = new Goal(level);
+        pegSequences = new ArrayList<>();
+        rocketSequences = new ArrayList<>();
         currentPegSeq = new ArrayList<>(Goal.NUM_PEGS);
         currentRocketSeq = new ArrayList<>(Goal.NUM_PEGS);
-        currentRow = 9;
+        currentRow = NUM_ROWS - 1;
         currentCol = 0;
         winOrLose = INPROGRESS;
         this.gameID = gameID;
@@ -48,10 +54,14 @@ public class GameEngine {
 
 
     @PersistenceConstructor
-    public GameEngine(String gameID, int level, Goal target, List<Peg> currentPegSeq, List<Rocket> currentRocketSeq, int currentRow, int currentCol, int winOrLose) {
+    public GameEngine(String gameID, int level, Goal target, List<List<Peg>> pegSequences, 
+            List<List<Rocket>> rocketSequences, List<Peg> currentPegSeq, List<Rocket> currentRocketSeq, 
+            int currentRow, int currentCol, int winOrLose) {
         this.gameID = gameID;
         this.level = level;
         this.target = target;
+        this.pegSequences = pegSequences;
+        this.rocketSequences = rocketSequences;
         this.currentPegSeq = currentPegSeq;
         this.currentRocketSeq = currentRocketSeq;
         this.currentRow = currentRow;
@@ -74,7 +84,7 @@ public class GameEngine {
 
 
     /**
-     * Submits the current guess sequence, setting the rockets accordingly
+     * Submits the current guess sequence, setting the rockets accordingly, and saving the peg and rocket sequences
      */
     public void submitPegSeq() {
         if (currentPegSeq.size() == Goal.NUM_PEGS) {
@@ -127,6 +137,10 @@ public class GameEngine {
                     }
                 }
             }
+
+            // save the peg/rocket sequences:
+            pegSequences.add(currentPegSeq);
+            rocketSequences.add(currentRocketSeq);
 
             // reset everything for the next guess:
             currentPegSeq.clear();
@@ -242,5 +256,25 @@ public class GameEngine {
      */
     public String getGameID() {
         return gameID;
+    }
+
+
+    /**
+     * Returns the saved peg sequences from this game
+     * 
+     * @return the saved peg sequences from this game
+     */
+    public List<List<Peg>> getPegSequences() {
+        return pegSequences;
+    }
+
+
+    /**
+     * Returns the saved rocket sequences from this game
+     * 
+     * @return the saved rocket sequences from this game
+     */
+    public List<List<Rocket>> getRocketSequences() {
+        return rocketSequences;
     }
 }
