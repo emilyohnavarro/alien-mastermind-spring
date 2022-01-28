@@ -76,11 +76,11 @@ $('.dropdown-menu a').click(function () {
   changeLevel(parseInt($(this).text()));
 });
 
-$("#btn-save-game").click(function() {
+$("#btn-save-game").click(function () {
   saveGame();
 });
 
-$("#btn-retrieve-game").click(function() {
+$("#btn-retrieve-game").click(function () {
   retrieveGame();
 });
 
@@ -291,6 +291,33 @@ function resetUI(gameEngine) {
   $("#level-dropdown").text("Level: " + gameEngine.level);
 
   addColorButtonHandlers();
+
+  // if this is a previously saved game, update the UI to reflect its state:
+  // update rockets:
+  for (let i = 0; i < gameEngine.rocketSequences.length; i++) {
+    showRocketSequence(gameEngine.rocketSequences[i], i);
+  }
+}
+
+
+// causes the rocket sequence to be shown in the UI in row number rowNum
+function showRocketSequence(sequence, rowNum) {
+  let allBlank = true;
+
+  // show the rockets:
+  for (let i = 0; i < NUM_PEGS; i++) {
+    let rocketFill = sequence[i].fill;
+    $("#rocket" + (rowNum + 1) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
+    if (rocketFill != EMPTY_ROCKET) {
+      allBlank = false;
+    }
+  }
+
+  // if no rockets, blank, show red x:
+  if (allBlank) {
+    $("#x-" + (rowNum + 1)).attr("src", RED_X_IMG);
+    $("#x-" + (rowNum + 1)).show();
+  }
 }
 
 
@@ -344,16 +371,16 @@ function addPeg(color) {
 function saveGame() {
   $.post("./games/save-game/" + gameID, function () {
     alert("Game saved with ID " + gameID);
-  } )
+  })
 }
 
 
 function retrieveGame() {
   var id = prompt("Enter the game ID");
   if (id != null) {
-    $.get("./games/retrieve/" + gameID, function (gameEngine) {
-      alert("Game retrieved in with ID " + gameEngine.gameID);
-      // TODO: reset UI to reflect 
+    $.get("./games/retrieve/" + id, function (gameEngine) {
+      alert("Game retrieved with ID " + gameEngine.gameID);
+      resetUI(gameEngine);
     });
   }
 }

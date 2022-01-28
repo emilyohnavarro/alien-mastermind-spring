@@ -24,4 +24,10 @@ public class Peg {
 	public int getColor() {
 		return color;
 	}
+
+
+	@Override
+	public String toString() {
+		return "color: " + color;
+	}
 }

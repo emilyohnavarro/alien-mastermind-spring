@@ -50,7 +50,8 @@ public class AlienMastermindController {
 	 */
 	@GetMapping("/games/retrieve/{id}")
 	public GameEngine retrieveGame(@PathVariable String id) {
-		return repository.findByGameID(id);
+		GameEngine g = repository.findByGameID(id);
+		return g;
 	}
 
 	
@@ -118,6 +119,7 @@ public class AlienMastermindController {
 	public void saveGame(@PathVariable String id) {
 		GameEngine game = findGameByID(id);
 		repository.save(game);
+		GameEngine g = repository.findByGameID(id);
 	}
 
 

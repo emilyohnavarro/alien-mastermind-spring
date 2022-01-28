@@ -87,6 +87,7 @@ public class GameEngine {
      * Submits the current guess sequence, setting the rockets accordingly, and saving the peg and rocket sequences
      */
     public void submitPegSeq() {
+        currentRocketSeq.clear();
         if (currentPegSeq.size() == Goal.NUM_PEGS) {
             int numBlueRockets = 0;
             int numWhiteRockets = 0;
@@ -139,8 +140,8 @@ public class GameEngine {
             }
 
             // save the peg/rocket sequences:
-            pegSequences.add(currentPegSeq);
-            rocketSequences.add(currentRocketSeq);
+            pegSequences.add(new ArrayList<>(currentPegSeq));
+            rocketSequences.add(new ArrayList<>(currentRocketSeq));
 
             // reset everything for the next guess:
             currentPegSeq.clear();
