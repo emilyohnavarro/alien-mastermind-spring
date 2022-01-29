@@ -38,6 +38,7 @@ const G_IMG = "images/g.gif", O_IMG = "images/o.gif", A_IMG = "images/a.gif", L_
 
 // GameEngine constants: =========================================================
 const WIN = 1, LOSE = 2, IN_PROGRESS = 3;
+const MAX_ROW_INDEX = 9;
 
 
 
@@ -94,22 +95,9 @@ function submit() {
 
       // send submit request to server: 
       $.post("./games/" + gameID + "/peg-seq/" + false, function (gameEngine) {
-        let allBlank = true;
 
-        // show the rockets:
-        for (let i = 0; i < NUM_PEGS; i++) {
-          let rocketFill = gameEngine.currentRocketSeq[i].fill;
-          $("#rocket" + (gameEngine.currentRow + 1) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
-          if (rocketFill != EMPTY_ROCKET) {
-            allBlank = false;
-          }
-        }
+        showRocketSequence(gameEngine.currentRocketSeq, gameEngine.currentRow + 1);
 
-        // if no rockets, blank, show red x:
-        if (allBlank) {
-          $("#x-" + (gameEngine.currentRow + 1)).attr("src", RED_X_IMG);
-          $("#x-" + (gameEngine.currentRow + 1)).show();
-        }
         disableSubmitButton();
 
         // check for win/loss:
@@ -295,7 +283,7 @@ function resetUI(gameEngine) {
   // if this is a previously saved game, update the UI to reflect its state:
   // update rockets:
   for (let i = 0; i < gameEngine.rocketSequences.length; i++) {
-    showRocketSequence(gameEngine.rocketSequences[i], i);
+    showRocketSequence(gameEngine.rocketSequences[i], MAX_ROW_INDEX - i);
   }
 }
 
@@ -307,7 +295,7 @@ function showRocketSequence(sequence, rowNum) {
   // show the rockets:
   for (let i = 0; i < NUM_PEGS; i++) {
     let rocketFill = sequence[i].fill;
-    $("#rocket" + (rowNum + 1) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
+    $("#rocket" + (rowNum) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
     if (rocketFill != EMPTY_ROCKET) {
       allBlank = false;
     }
@@ -315,8 +303,8 @@ function showRocketSequence(sequence, rowNum) {
 
   // if no rockets, blank, show red x:
   if (allBlank) {
-    $("#x-" + (rowNum + 1)).attr("src", RED_X_IMG);
-    $("#x-" + (rowNum + 1)).show();
+    $("#x-" + (rowNum)).attr("src", RED_X_IMG);
+    $("#x-" + (rowNum)).show();
   }
 }
 
