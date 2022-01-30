@@ -98,22 +98,6 @@ function submit() {
 
         showRocketSequence(gameEngine.currentRocketSeq, gameEngine.currentRow + 1);
 
-        // let allBlank = true;
-
-        // // show the rockets:
-        // for (let i = 0; i < NUM_PEGS; i++) {
-        //   let rocketFill = gameEngine.currentRocketSeq[i].fill;
-        //   $("#rocket" + (gameEngine.currentRow + 1) + "-" + i).attr("src", rocketImageSources.get(rocketFill));
-        //   if (rocketFill != EMPTY_ROCKET) {
-        //     allBlank = false;
-        //   }
-        // }
-
-        // // if no rockets, blank, show red x:
-        // if (allBlank) {
-        //   $("#x-" + (gameEngine.currentRow + 1)).attr("src", RED_X_IMG);
-        //   $("#x-" + (gameEngine.currentRow + 1)).show();
-        // }
         disableSubmitButton();
 
         // check for win/loss:
@@ -301,6 +285,11 @@ function resetUI(gameEngine) {
   for (let i = 0; i < gameEngine.rocketSequences.length; i++) {
     showRocketSequence(gameEngine.rocketSequences[i], MAX_ROW_INDEX - i);
   }
+
+  // update pegs:
+  for (let i=0; i < gameEngine.pegSequences.length; i++) {
+    showPegSequence(gameEngine.pegSequences[i], MAX_ROW_INDEX - i);
+  }
 }
 
 
@@ -321,6 +310,15 @@ function showRocketSequence(sequence, rowNum) {
   if (allBlank) {
     $("#x-" + (rowNum)).attr("src", RED_X_IMG);
     $("#x-" + (rowNum)).show();
+  }
+}
+
+
+// causes the peg sequence to be shown in the UI in the row number rowNum
+function showPegSequence(sequence, rowNum) {
+  for (let i = 0; i < sequence.length; i++) {
+    let color = sequence[i].color;
+    $("#peg" + rowNum + "-" + i).attr("src", pegImageSources.get(color));
   }
 }
 
