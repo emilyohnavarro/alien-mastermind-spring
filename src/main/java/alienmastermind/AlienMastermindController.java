@@ -51,6 +51,7 @@ public class AlienMastermindController {
 	@GetMapping("/games/retrieve/{id}")
 	public GameEngine retrieveGame(@PathVariable String id) {
 		GameEngine g = repository.findByGameID(id);
+		games.add(g);
 		return g;
 	}
 
