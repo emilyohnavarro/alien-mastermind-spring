@@ -381,8 +381,13 @@ function retrieveGame() {
   var id = prompt("Enter the game ID");
   if (id != null) {
     $.get("./games/retrieve/" + id, function (gameEngine) {
-      alert("Game retrieved with ID " + gameEngine.gameID);
-      resetUI(gameEngine);
+      // alert("Game retrieved with ID " + gameEngine.gameID);
+      if (gameEngine.length == 0) {
+        alert("No game with that ID found");
+      }
+      else {
+        resetUI(gameEngine);
+      }
     });
   }
 }
