@@ -2,6 +2,8 @@ Project Title: Alien Mastermind Spring
 
 Introduction: This is a game I built to learn Java Spring Boot. It is basically the board game mastermind, with an alien theme.
 
+This game has an HTML/CSS/JS front-end and a Java Spring Boot back-end, with game persistence (saving/retrieving) using MongoDB.
+
 This game is deployed and running online at: https://alien-mastermind-spring.herokuapp.com/
 
 Technologies: Java, HTML, CSS, JavaScript, MongoDB
